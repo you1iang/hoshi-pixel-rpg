@@ -1,277 +1,72 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>星明かりの勇者 — 2DコマンドRPG</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#10152c">
+<title>星喰みの夜 — コマンドRPG</title>
 <style>
-:root{color-scheme:dark;--bg:#101522;--panel:#1b2437;--edge:#60749a;--gold:#ffd36a;--ink:#f5f3e8;--muted:#bbc7d9;--green:#8de0a1;--red:#ff7b7b;--blue:#84c7ff}
-*{box-sizing:border-box}body{margin:0;background:#0d1220;color:var(--ink);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;padding:14px 10px 30px;image-rendering:pixelated}
-main{max-width:900px;margin:auto}header{text-align:center;margin:8px 0 14px}h1{margin:0;color:var(--gold);font-size:clamp(1.45rem,5vw,2.25rem);text-shadow:3px 3px #623f32;letter-spacing:.05em}.tag{color:var(--muted);font-size:.8rem;margin-top:6px}
-.panel{border:2px solid var(--edge);border-radius:5px;background:var(--panel);padding:12px;margin:10px 0;box-shadow:0 5px 0 #080c14}.hud{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.stat{background:#101827;border:1px solid #354761;padding:8px}.stat strong{display:block;color:var(--gold);font-size:.75rem;margin-bottom:4px}.stat span{font-size:.9rem}.bar{height:7px;background:#344052;margin-top:5px}.fill{height:100%;background:var(--green);transition:width .25s}.mp{background:var(--blue)}.xp{background:var(--gold)}
-#scene{position:relative;overflow:hidden;padding:0;background:#17263b}.scene-top{display:flex;justify-content:space-between;align-items:center;padding:9px 11px;background:#111a2b;border-bottom:2px solid var(--edge);gap:8px}.scene-top strong{color:var(--gold)}#mapcanvas{display:block;width:100%;height:auto;max-height:300px;object-fit:cover;image-rendering:pixelated;background:#273f45}.map-controls{display:grid;grid-template-columns:repeat(3,54px);gap:5px;justify-content:center;padding:10px;background:#111a2b;border-top:1px solid #354761}.map-controls button{font:inherit;font-size:1.15rem;color:var(--ink);background:#283a56;border:2px solid #7188ad;border-radius:4px;min-height:43px;touch-action:manipulation}.map-controls button:active{background:#506b91}.map-controls .empty{visibility:hidden}.map-help{text-align:center;padding:0 8px 8px;background:#111a2b;color:var(--muted);font-size:.75rem}.scene-bottom{padding:10px 12px;min-height:54px;line-height:1.55;color:#d8e2f2}.badge{border:1px solid #6e83a5;padding:3px 7px;font-size:.75rem;color:var(--muted);white-space:nowrap}
-h2{font-size:1rem;color:var(--gold);margin:0 0 9px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.btn{font:inherit;color:var(--ink);background:#283a56;border:2px solid #7188ad;border-radius:3px;padding:11px 8px;cursor:pointer;text-align:left;line-height:1.35}.btn:hover:not(:disabled){background:#38547a;border-color:var(--gold)}.btn:active:not(:disabled){transform:translateY(2px)}.btn:disabled{opacity:.38;cursor:not-allowed}.btn.gold{color:var(--gold);border-color:var(--gold)}.btn small{display:block;color:var(--muted);font-size:.75rem;margin-top:3px}.row{display:flex;gap:8px;flex-wrap:wrap}.row .btn{flex:1}.hidden{display:none!important}#log{height:142px;overflow:auto;background:#0d1421;border:1px solid #344862;padding:9px;line-height:1.5;font-size:.82rem}#log p{margin:0 0 5px}.members{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.member{background:#101827;border:1px solid #354761;padding:8px;font-size:.78rem}.member .face{font-size:1.35rem}.member b{display:block;color:var(--gold);margin:3px 0}.member .bar{margin-top:5px}.inventory{line-height:1.8;color:var(--muted);font-size:.84rem}.quest{border-left:3px solid var(--gold);padding:7px 9px;background:#111a2b;margin:7px 0;font-size:.84rem;line-height:1.5}.quest.done{border-color:var(--green)}.hint{color:var(--muted);font-size:.78rem;line-height:1.5}.foot{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between;color:var(--muted);font-size:.78rem}
-@media(max-width:540px){.hud{grid-template-columns:repeat(2,1fr)}.members{grid-template-columns:repeat(2,1fr)}.panel{padding:9px}.scene-top{align-items:flex-start}.btn{padding:10px 7px;font-size:.84rem}#mapcanvas{max-height:230px}}
-</style>
-</head>
-<body><main>
-<header><h1>✦ 星明かりの勇者 ✦</h1><div class="tag">RETRO PIXEL RPG / COMMAND BATTLE</div></header>
-<section class="panel hud">
- <div class="stat"><strong>勇者 / LEVEL</strong><span id="heroLv">Lv.1</span><div class="bar"><div class="fill xp" id="xpbar" style="width:0%"></div></div><small id="xptext">EXP 0/20</small></div>
- <div class="stat"><strong>HP ❤️</strong><span id="hptext">42/42</span><div class="bar"><div class="fill" id="hpbar"></div></div></div>
- <div class="stat"><strong>MP ✨</strong><span id="mptext">14/14</span><div class="bar"><div class="fill mp" id="mpbar"></div></div></div>
- <div class="stat"><strong>所持金 💰</strong><span id="gold">30 G</span><small id="locationHud">はじまりの村</small></div>
+:root{--bg:#0b1022;--panel:#171e3a;--panel2:#20294b;--line:#6574a6;--gold:#f7d77a;--white:#f4f5ff;--muted:#b5bfdc;--red:#ff8585;--blue:#8ad8ff;--green:#9df0bc}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#29365e 0,#10152c 45%,#080b18 100%);color:var(--white);font-family:ui-monospace,"SFMono-Regular",Consolas,monospace;min-height:100vh;padding:12px}button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}button:focus-visible{outline:3px solid var(--gold)}.shell{max-width:760px;margin:auto}.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 12px}.brand{font-weight:900;letter-spacing:.06em;color:var(--gold);font-size:clamp(17px,4.8vw,25px);text-shadow:2px 2px #563d67}.chip{font-size:11px;border:1px solid #7181b1;border-radius:4px;padding:5px 7px;color:var(--muted)}.screen{border:3px solid #8493c7;background:#10162c;box-shadow:0 0 0 3px #070a16,0 8px 25px #0008;border-radius:7px;overflow:hidden}.scene{position:relative;min-height:180px;background:linear-gradient(#131b3c,#293d64 68%,#182644);overflow:hidden;display:flex;align-items:center;justify-content:center}.scene:before{content:"";position:absolute;inset:0;background-image:radial-gradient(#fff 1px,transparent 1px),radial-gradient(#9ebdff 1px,transparent 1px);background-size:37px 31px,61px 47px;background-position:0 0,18px 11px;opacity:.55}.moon{position:absolute;right:12%;top:18px;width:36px;height:36px;border-radius:50%;background:#f5e6b0;box-shadow:0 0 28px #ffe5a177}.mountain{position:absolute;bottom:0;width:100%;height:72px;background:#17233f;clip-path:polygon(0 75%,13% 36%,22% 68%,38% 14%,52% 63%,70% 27%,83% 67%,94% 40%,100% 60%,100% 100%,0 100%)}.scene-art{position:relative;z-index:1;font-size:clamp(52px,14vw,88px);filter:drop-shadow(4px 5px 0 #080b18);image-rendering:pixelated}.scene-label{position:absolute;z-index:2;left:10px;top:9px;background:#080d20cc;border:1px solid #7786b7;padding:5px 8px;font-size:12px;color:var(--gold)}.story{padding:14px 14px 12px;background:#11172e;border-top:2px solid #7383b9;min-height:115px}.speaker{color:var(--gold);font-weight:bold;margin-bottom:8px;font-size:14px}.text{line-height:1.9;font-size:14px;white-space:pre-line}.next{display:block;margin:10px 0 0 auto;background:#28365f;border:2px solid #8496d0;padding:8px 15px;border-radius:4px;color:white}.next:after{content:" ▼";color:var(--gold)}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0}.stat{background:#151c37;border:1px solid #3d4c7b;padding:7px;border-radius:4px;text-align:center;font-size:11px;color:var(--muted)}.stat strong{display:block;color:var(--white);font-size:14px;margin-top:4px}.panel{background:var(--panel);border:2px solid #4d5e91;border-radius:5px;padding:10px;margin:9px 0}.panel h2{font-size:13px;color:var(--gold);margin:0 0 9px;letter-spacing:.05em}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.action{background:linear-gradient(#28365e,#1b2545);border:2px solid #6174aa;border-radius:4px;text-align:left;padding:10px;min-height:54px;line-height:1.5}.action strong{display:block;font-size:13px}.action small{display:block;color:#c2cce8;font-size:11px;margin-top:3px}.action:active,.action:hover{border-color:var(--gold);background:#35446f}.action.primary{border-color:var(--gold)}.action:disabled{opacity:.45;cursor:not-allowed}.party{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.member{border:1px solid #485987;background:#10162c;padding:8px;border-radius:4px}.member-head{display:flex;justify-content:space-between;gap:4px;font-size:12px;font-weight:bold}.role{font-size:10px;color:var(--muted);font-weight:normal}.bar{height:7px;background:#34364e;border-radius:2px;overflow:hidden;margin:6px 0 3px}.bar i{display:block;height:100%;background:var(--green)}.bar.mp i{background:var(--blue)}.member small{font-size:10px;color:var(--muted)}.battlefield{display:flex;align-items:center;justify-content:space-around;min-height:125px;padding:12px;background:#111a35;border-bottom:1px solid #43527d}.fighter{text-align:center;min-width:30%;}.fighter .emoji{font-size:46px;filter:drop-shadow(3px 4px 0 #050712)}.fighter .name{font-size:12px;margin-top:5px;color:var(--gold)}.fighter .hp{font-size:10px;color:var(--muted);margin-top:4px}.vs{color:var(--gold);font-weight:bold}.log{max-height:135px;overflow:auto;font-size:11px;line-height:1.75;color:#d1d9f2;background:#0b1022;border:1px solid #34436d;padding:8px}.log p{margin:0 0 4px}.bottom{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin:12px 0}.bottom button{background:#171f3c;border:1px solid #536492;border-radius:4px;padding:8px 10px;font-size:11px}.ending{color:var(--gold);font-weight:bold}.hidden{display:none!important}.foot{text-align:center;color:#8997bd;font-size:10px;margin:10px 0 18px}.toast{color:var(--green);font-size:11px;min-height:17px;margin-top:5px}@media(max-width:420px){body{padding:8px}.scene{min-height:155px}.stats{grid-template-columns:repeat(2,1fr)}.actions{grid-template-columns:1fr}.party{grid-template-columns:1fr 1fr}.text{font-size:13px}.panel{padding:8px}}
+</style></head><body><main class="shell">
+<header class="top"><div class="brand">★ 星喰みの夜</div><div class="chip">COMMAND RPG / PROLOGUE</div></header>
+<section class="screen">
+ <div class="scene" id="scene"><div class="moon"></div><div class="mountain"></div><div class="scene-label" id="sceneLabel">第一章　星の降らない夜</div><div class="scene-art" id="sceneArt">🏚️</div></div>
+ <div class="story"><div class="speaker" id="speaker">ナレーション</div><div class="text" id="storyText">星が消えた夜、物語が始まる。</div><button class="next" id="nextBtn">つづきを読む</button></div>
+ <div id="battlefield" class="battlefield hidden"></div>
 </section>
-<section class="panel" id="scene">
- <div class="scene-top"><strong id="placeName">はじまりの村</strong><span class="badge" id="placeType">SAFE AREA</span></div>
- <canvas id="mapcanvas" width="480" height="210" aria-label="ドット絵フィールド"></canvas>
- <div class="map-controls" aria-label="移動操作"><span class="empty"></span><button onclick="movePlayer(0,-12)" aria-label="上へ">▲</button><span class="empty"></span><button onclick="movePlayer(-12,0)" aria-label="左へ">◀</button><button onclick="movePlayer(0,12)" aria-label="下へ">▼</button><button onclick="movePlayer(12,0)" aria-label="右へ">▶</button></div><div class="map-help">矢印キー / WASD / 上のボタンで移動。歩いて探索しよう！</div>
- <div class="scene-bottom" id="sceneText">小さな村に朝日が昇る。村長があなたを待っている。</div>
-</section>
-<section class="panel"><h2>▶ 行動コマンド</h2><div id="actions" class="grid"></div><div id="subactions" class="grid hidden" style="margin-top:8px"></div></section>
-<section class="panel"><h2>👥 パーティー</h2><div id="members" class="members"></div></section>
-<section class="panel"><h2>📜 クエスト</h2><div id="quests"></div></section>
-<section class="panel"><h2>🎒 持ち物・装備</h2><div id="inventory" class="inventory"></div></section>
-<section class="panel"><h2>📖 冒険の記録</h2><div id="log" aria-live="polite"><p>▶ 星の神殿に眠る闇が目覚めようとしている……。</p></div></section>
-<section class="panel foot"><span id="progress">討伐 0体</span><div class="row" style="flex:0 1 auto"><button class="btn" onclick="saveGame()">💾 セーブ</button><button class="btn" onclick="loadGame()">📂 ロード</button><button class="btn" onclick="newGame()">↻ 最初から</button></div></section>
-<p class="hint">このゲームは単一HTMLファイルで動作します。進行状況は同じブラウザ内に保存できます。</p>
+<div class="stats"><div class="stat">CHAPTER<strong id="chapterStat">01 / 04</strong></div><div class="stat">所持金<strong><span id="gold">120</span> G</strong></div><div class="stat">討伐数<strong id="kills">0</strong></div><div class="stat">絆<strong id="bond">0</strong></div></div>
+<section class="panel"><h2 id="actionTitle">▶ どうする？</h2><div class="actions" id="actions"></div><div id="toast" class="toast"></div></section>
+<section class="panel"><h2>◆ なかま</h2><div class="party" id="party"></div></section>
+<section class="panel"><h2>◆ 冒険の記録</h2><div class="log" id="log" aria-live="polite"><p>— 星明かりの記録帳 —</p></div></section>
+<div class="bottom"><button id="saveBtn">💾 セーブ</button><button id="loadBtn">📂 ロード</button><button id="resetBtn">↻ 最初から</button></div><div class="foot">スマートフォン対応・移動なしの選択式RPG<br>セーブデータはこのブラウザ内に保存されます</div>
 </main>
 <script>
-const $=id=>document.getElementById(id);
-const places={
- village:{name:"はじまりの村",type:"VILLAGE",desc:"小さな村に朝日が昇る。村長があなたを待っている。",map:"village"},
- field:{name:"風渡る草原",type:"FIELD",desc:"風が草を揺らす。魔物の気配がする。",map:"field"},
- forest:{name:"ささやきの森",type:"DUNGEON",desc:"古い木々の間に、青白い光が漂っている。",map:"forest"},
- cave:{name:"月影の洞窟",type:"DUNGEON",desc:"壁の鉱石がほのかに輝く。奥から低いうなり声が聞こえる。",map:"cave"},
- shrine:{name:"星の神殿",type:"FINAL DUNGEON",desc:"星の祭壇が闇に包まれている。最後の戦いが始まる。",map:"shrine"}
-};
-const enemyBook={
- slime:{name:"あおスライム",emoji:"💧",hp:18,atk:5,xp:8,gold:5},
- wolf:{name:"つきよのオオカミ",emoji:"🐺",hp:27,atk:7,xp:13,gold:8},
- goblin:{name:"森のゴブリン",emoji:"👺",hp:34,atk:8,xp:17,gold:11},
- bat:{name:"どうくつコウモリ",emoji:"🦇",hp:30,atk:9,xp:18,gold:12},
- knight:{name:"くろがね騎士",emoji:"♞",hp:48,atk:11,xp:28,gold:20},
- boss:{name:"森の守護獣",emoji:"🦁",hp:100,atk:13,xp:65,gold:55,boss:true},
- dragon:{name:"月喰いドラゴン",emoji:"🐉",hp:145,atk:16,xp:90,gold:80,boss:true},
- final:{name:"星喰いの魔王",emoji:"👿",hp:220,atk:20,xp:180,gold:200,boss:true,final:true}
-};
-let G;
-function fresh(){
- return {loc:"village",hero:{name:"勇者",lv:1,xp:0,hp:42,maxHp:42,mp:14,maxMp:14,atk:9,def:2,weapon:"ひのきの剣",armor:"旅人の服"},
- party:[{name:"勇者",role:"勇者",face:"🧑‍🌾",lv:1,hp:42,maxHp:42,mp:14,maxMp:14,atk:9,def:2},{name:"ミナ",role:"魔法使い",face:"🧙",lv:1,hp:30,maxHp:30,mp:22,maxMp:22,atk:5,def:1},{name:"ガルド",role:"戦士",face:"🛡️",lv:1,hp:52,maxHp:52,mp:6,maxMp:6,atk:11,def:4},{name:"リリ",role:"僧侶",face:"🧝",lv:1,hp:34,maxHp:34,mp:18,maxMp:18,atk:6,def:2}],
- gold:30,potions:3,ethers:1,herbs:0,kills:0,flags:{metElder:false,forestBoss:false,caveBoss:false,finalBoss:false,metMina:false,metGald:false,metLili:false},quests:{intro:"active",forest:"locked",cave:"locked",final:"locked"},enemy:null,turn:0,over:false,won:false,shopMode:"",dialogueStep:0,pos:{x:230,y:145},steps:0,commands:[],guards:[]};
-}
-function log(s){let p=document.createElement("p");p.textContent="▶ "+s;$("log").appendChild(p);$("log").scrollTop=$("log").scrollHeight}
-function say(s){$("sceneText").textContent=s}
-function rnd(n){return Math.floor(Math.random()*n)}
-function alive(p){return p.hp>0}
-function healAll(){G.party.forEach(p=>{p.hp=p.maxHp;p.mp=p.maxMp});}
-function syncHero(){G.hero=G.party[0];}
-function render(){
- syncHero(); const h=G.hero;
- $("heroLv").textContent="Lv."+h.lv;$("hptext").textContent=h.hp+"/"+h.maxHp;$("mptext").textContent=h.mp+"/"+h.maxMp;$("gold").textContent=G.gold+" G";$("locationHud").textContent=places[G.loc].name;
- $("hpbar").style.width=100*h.hp/h.maxHp+"%";$("mpbar").style.width=100*h.mp/h.maxMp+"%";$("xpbar").style.width=100*h.xp/(h.lv*20)+"%";$("xptext").textContent="EXP "+h.xp+"/"+(h.lv*20);
- $("placeName").textContent=places[G.loc].name;$("placeType").textContent=places[G.loc].type;
- $("members").innerHTML=G.party.map((p,i)=>`<div class="member"><div class="face">${p.face}</div><b>${p.name} Lv.${p.lv}</b><div>${p.role}</div><div>HP ${p.hp}/${p.maxHp}</div><div class="bar"><div class="fill" style="width:${100*p.hp/p.maxHp}%;background:${p.hp/p.maxHp<.25?'#ff7b7b':'#8de0a1'}"></div></div><div>MP ${p.mp}/${p.maxMp}</div></div>`).join("");
- const q=[["intro","村長の依頼","村長と話し、冒険の目的を知る。"],["forest","森の守護獣","ささやきの森で守護獣を倒す。"],["cave","月影の竜","月影の洞窟でドラゴンを倒す。"],["final","星喰いの魔王","星の神殿で魔王を倒す。"]];
- $("quests").innerHTML=q.map(([k,n,d])=>{let st=G.quests[k];return `<div class="quest ${st==='done'?'done':''}"><b>${st==='done'?'✓ ':st==='active'?'◆ ':'◇ '}${n}</b><br>${d}<br><span class="hint">${st==='done'?'達成！':st==='active'?'進行中': '未解放'}</span></div>`}).join("");
- $("inventory").innerHTML=`🧪 やくそう × ${G.potions}（HPを25回復）　🔷 MP草 × ${G.ethers}（MPを10回復）<br>⚔ 武器：${h.weapon}（攻撃 ${h.atk}）　🛡 防具：${h.armor}（守備 ${h.def}）<br>💰 所持金：${G.gold} G　｜　討伐数：${G.kills}`;
- $("progress").textContent=`討伐 ${G.kills}体　｜　仲間 ${G.party.length}/4`;
- drawMap(); renderActions();
-}
-function drawMap(){
- const c=$("mapcanvas"),x=c.getContext("2d");x.imageSmoothingEnabled=false;
- const palettes={village:["#83c9dc","#4e986b","#32714f"],field:["#83c9dc","#7dbb61","#52924c"],forest:["#172c3b","#285843","#163c35"],cave:["#1d253a","#38465b","#252f45"],shrine:["#272544","#514c81","#302c55"]};
- const p=palettes[G.loc];x.fillStyle=p[0];x.fillRect(0,0,480,210);x.fillStyle=p[1];x.fillRect(0,80,480,130);x.fillStyle=p[2];
- for(let i=0;i<16;i++){let xx=(i*67+13)%490,yy=90+(i*31)%115;x.fillRect(xx,yy,18,12);x.fillRect(xx+5,yy-9,9,10)}
- function tree(xx,yy,col){x.fillStyle="#593f30";x.fillRect(xx+11,yy+22,7,17);x.fillStyle=col;x.fillRect(xx+3,yy+5,23,22);x.fillRect(xx,yy+12,29,13);x.fillStyle="#b4e18a";x.fillRect(xx+6,yy+8,5,4)}
- function house(xx,yy,col){x.fillStyle="#d5b47b";x.fillRect(xx,yy+15,52,34);x.fillStyle=col;x.fillRect(xx-5,yy+7,62,15);x.fillStyle="#644b40";x.fillRect(xx+20,yy+29,12,20);x.fillStyle="#9bd8ee";x.fillRect(xx+5,yy+23,9,8);x.fillRect(xx+38,yy+23,9,8)}
- if(G.loc==="village"){house(40,55,"#b95050");house(330,90,"#6b67a5");tree(220,35,"#2d8b53");tree(260,85,"#2d8b53");x.fillStyle="#d9bd83";x.fillRect(0,155,480,17)}
- if(G.loc==="field"){x.fillStyle="#c9b779";x.fillRect(0,157,480,11);tree(55,60,"#2f8c50");tree(370,50,"#3a9953");tree(410,118,"#2f8c50");}
- if(G.loc==="forest"){for(let i=0;i<11;i++)tree(i*48-6,45+(i%3)*30,"#1c694a");x.fillStyle="#8dd6bd";x.fillRect(220,128,6,6);x.fillRect(237,137,5,5)}
- if(G.loc==="cave"){x.fillStyle="#111827";x.fillRect(0,0,480,210);x.fillStyle="#34445c";x.fillRect(0,135,480,75);for(let i=0;i<12;i++){x.fillStyle=i%2?"#667da1":"#4b5f81";x.fillRect(i*43,30+(i%3)*13,25,6);x.fillStyle="#a3c9ff";x.fillRect(i*43+9,36+(i%3)*13,4,9)}}
- if(G.loc==="shrine"){x.fillStyle="#38315f";x.fillRect(0,0,480,210);for(let i=0;i<5;i++){x.fillStyle="#7771a8";x.fillRect(45+i*90,45,24,120);x.fillStyle="#d8d3ff";x.fillRect(51+i*90,50,5,110)}x.fillStyle="#a78bfa";x.fillRect(204,110,72,65);x.fillStyle="#f5dc87";x.fillRect(232,90,15,35)}
- // player sprite follows free-movement coordinates
- let hx=G.pos?G.pos.x:230,hy=G.pos?G.pos.y:145;
- x.fillStyle="#2d2330";x.fillRect(hx+5,hy+24,7,12);x.fillRect(hx+15,hy+24,7,12);x.fillStyle="#4169a1";x.fillRect(hx+3,hy+10,22,17);x.fillStyle="#f0c7a2";x.fillRect(hx+6,hy,16,14);x.fillStyle="#6d4534";x.fillRect(hx+4,hy-2,18,6);x.fillStyle="#f7f0d4";x.fillRect(hx+18,hy+12,12,4);x.fillStyle="#b8d4f0";x.fillRect(hx+27,hy+7,3,17);
- if(G.enemy){x.fillStyle="#ff7777";x.fillRect(330,116,35,35);x.fillStyle="#fff";x.fillRect(337,124,5,5);x.fillRect(352,124,5,5);x.fillStyle="#202030";x.fillRect(338,126,2,2);x.fillRect(353,126,2,2)}
-}
-function addAction(label,desc,fn,cls=""){let b=document.createElement("button");b.className="btn "+cls;b.innerHTML=label+(desc?`<small>${desc}</small>`:"");b.onclick=fn;$("actions").appendChild(b)}
-function addSub(label,desc,fn,cls=""){let b=document.createElement("button");b.className="btn "+cls;b.innerHTML=label+(desc?`<small>${desc}</small>`:"");b.onclick=fn;$("subactions").appendChild(b)}
-function showSub(title,items){$("subactions").classList.remove("hidden");$("subactions").innerHTML="";items.forEach(it=>addSub(it[0],it[1],it[2],it[3]||""));addSub("↩ もどる","メインコマンドへ",()=>{hideSub();renderActions()})}
-function hideSub(){$("subactions").classList.add("hidden");$("subactions").innerHTML=""}
-function renderActions(){
- $("actions").innerHTML="";hideSub();
- if(G.over){addAction("✨ 冒険を終える","最初から遊び直す",newGame,"gold");return}
- if(G.enemy){battleActions();return}
- const loc=G.loc;
- if(loc==="village"){
-  addAction("🗣 村長と話す","物語を進める",elderTalk,"gold");
-  addAction("🛒 武器・道具屋","装備や回復道具を買う",shop);
-  addAction("🛏 宿屋","10Gで全回復",inn);
-  addAction("🗺 草原へ出発","冒険に出る",()=>travel("field"));
-  if(G.flags.forestBoss)addAction("🌲 森へ向かう","守護獣を倒した森",()=>travel("forest"));
-  if(G.flags.caveBoss)addAction("🕳 洞窟へ向かう","月影の洞窟",()=>travel("cave"));
-  if(G.flags.forestBoss&&G.flags.caveBoss)addAction("🌌 星の神殿へ","最終決戦",()=>travel("shrine"),"gold");
- }else{
-  addAction("🚶 探索する","魔物・宝箱・イベント",explore,"gold");
-  addAction("↩ 村へ戻る","宿屋とお店がある",()=>travel("village"));
-  if(loc==="field"){addAction("🌲 森の入口へ","クエスト：森の守護獣",()=>travel("forest"))}
-  if(loc==="forest"&&G.flags.forestBoss)addAction("🕳 洞窟の入口へ","次の冒険",()=>travel("cave"));
-  if(loc==="cave"&&G.flags.caveBoss)addAction("🌌 星の神殿へ","最後の戦い",()=>travel("shrine"),"gold");
- }
- addAction("🎒 道具を使う","戦闘外で回復",()=>showSub("items",[
-  ["🧪 やくそう ×"+G.potions,"HPを25回復",()=>useItem("potion")],
-  ["🔷 MP草 ×"+G.ethers,"MPを10回復",()=>useItem("ether")]
- ]));
-}
-function elderTalk(){
- if(!G.flags.metElder){G.flags.metElder=true;G.quests.intro="done";G.quests.forest="active";log("村長「勇者よ、森の守護獣が星の道を塞いでおる。まずは草原で腕を磨き、森を救ってくれ」");say("村長から森の守護獣討伐を頼まれた。草原で準備を整えよう。")}
- else if(!G.flags.forestBoss)log("村長「草原で経験を積み、ささやきの森の守護獣を倒すのじゃ」");
- else if(!G.flags.caveBoss)log("村長「森の奥で見つけた星の欠片が、月影の洞窟を照らすじゃろう」");
- else if(!G.flags.finalBoss)log("村長「すべての道が星の神殿へつながった。魔王を止めてくれ！」");
- else log("村長「世界に再び星明かりが戻った。そなたこそ真の勇者じゃ！」");
- render();
-}
-function travel(loc){if(G.enemy)return;G.loc=loc;G.pos={x:230,y:145};G.steps=0;say(places[loc].desc);log(places[loc].name+"に到着した。");render()}
-function movePlayer(dx,dy){if(G.enemy||G.over)return;let nx=Math.max(18,Math.min(445,(G.pos?.x||230)+dx)),ny=Math.max(18,Math.min(176,(G.pos?.y||145)+dy));
- // keep the player away from the edges of the decorative buildings/obstacles
- if(G.loc==="village"&&ny<100&&((nx<105&&ny<112)||(nx>315&&ny<130)))return;
- if(G.loc==="forest"&&ny<95&&Math.floor(nx/48)%2===0)return;
- G.pos={x:nx,y:ny};G.steps=(G.steps||0)+1;drawMap();
- if(G.loc!=="village"&&G.loc!=="shrine"&&G.steps%7===0&&Math.random()<.42){log("歩いていると魔物が現れた！");explore();return}
- if(G.loc==="shrine"&&!G.flags.finalBoss&&G.steps%5===0){say("祭壇の奥から強い闇の気配がする。『探索する』で魔王に挑もう。")}
-}
-function explore(){
- if(G.enemy||G.over)return;
- if(G.loc==="village"){say("村の人々が穏やかに暮らしている。");return}
- const r=Math.random();
- if(G.loc==="field"){
-  if(!G.flags.metElder){log("村長の話を聞くと冒険の目的が分かりそうだ。");say("まずは村長のもとへ戻ろう。");return}
-  if(r<.15){G.potions++;log("草むらでやくそうを見つけた！");say("やくそうを手に入れた。")}
-  else startBattle(pick(["slime","slime","wolf"]));
- }else if(G.loc==="forest"){
-  if(!G.flags.forestBoss){if(r<.35){startBattle(pick(["wolf","goblin"]));return}startBattle("boss")}
-  else {if(r<.4){G.potions++;log("森でやくそうを見つけた！")}else startBattle(pick(["wolf","goblin"]))}
- }else if(G.loc==="cave"){
-  if(!G.flags.caveBoss){if(r<.35){startBattle(pick(["bat","knight"]));return}startBattle("dragon")}
-  else startBattle(pick(["bat","knight"]));
- }else if(G.loc==="shrine"){
-  if(!G.flags.finalBoss)startBattle("final");else say("祭壇に星明かりが満ちている。世界は救われた！");
- }
- render();
-}
-function pick(a){return a[rnd(a.length)]}
-function startBattle(key){
- const e=enemyBook[key];G.enemy={...e,maxHp:e.hp,hp:e.hp};G.turn=0;G.commands=[];G.guards=[];say(e.name+"が立ちはだかった！");log("⚔ "+e.name+"が現れた！");drawMap();renderActions();renderHudOnly();
-}
-function renderHudOnly(){render()}
-function battleActions(){
- const chosen=G.commands||[];
- addAction("📋 個別コマンドを選ぶ",`${chosen.length}/${G.party.filter(alive).length}人分 指示済み`,()=>showPartyCommands(),"gold");
- if(G.party.filter(alive).every((p,i)=>chosen.some(c=>c.index===G.party.indexOf(p))))addAction("⚔ コマンド実行！","全員の行動をまとめて実行",resolveRound,"gold");
- addAction("🎒 道具を使う","勇者にやくそう / MP草",()=>showSub("battleitems",[
-  ["🧪 やくそう ×"+G.potions,"勇者のHPを25回復",()=>queueCommand(0,"potion")],
-  ["🔷 MP草 ×"+G.ethers,"勇者のMPを10回復",()=>queueCommand(0,"ether")]
- ]));
- addAction("🏃 にげる","ボス戦からは逃げられない",runAway);
-}
-function showPartyCommands(){
- const items=G.party.map((p,i)=>{const queued=(G.commands||[]).find(c=>c.index===i);return [`${p.face} ${p.name}${!alive(p)?"（戦闘不能）":queued?" ✓":""}`,queued?"指示済み":`HP ${p.hp}/${p.maxHp}・MP ${p.mp}/${p.maxMp}`,()=>{if(alive(p)&&!queued)showMemberCommands(i)}]});
- showSub("party",items);
-}
-function showMemberCommands(i){
- const p=G.party[i],items=[["⚔ こうげき","敵単体を攻撃",()=>queueCommand(i,"attack")],["🛡 ぼうぎょ","このターン受けるダメージを軽減",()=>queueCommand(i,"guard")]];
- if(p.role==="魔法使い"||p.role==="勇者")items.push(["🔥 炎の魔法（MP 3）","敵に大ダメージ",()=>queueCommand(i,"fire")]);
- if(p.role==="僧侶"||p.role==="勇者")items.push(["💚 回復（MP 4）","HPが最も減った仲間を回復",()=>queueCommand(i,"heal")]);
- if(p.role==="魔法使い")items.push(["🌟 全体回復（MP 8）","生存中の仲間全員を回復",()=>queueCommand(i,"partyheal")]);
- if(p.role==="戦士")items.push(["💥 強打","攻撃力の高い一撃",()=>queueCommand(i,"power")]);
- showSub(p.name+"のコマンド",items);
-}
-function queueCommand(index,type){
- if(!G.enemy)return;
- G.commands=G.commands||[];G.commands=G.commands.filter(c=>c.index!==index);G.commands.push({index,type});
- log(G.party[index].name+"："+({attack:"こうげき",guard:"ぼうぎょ",fire:"炎の魔法",heal:"回復",partyheal:"全体回復",power:"強打",potion:"やくそう",ether:"MP草"}[type]||type)+"を選択。");
- hideSub();renderActions();
-}
-function resolveRound(){
- if(!G.enemy)return;let commands=G.commands||[];G.guards=[];
- for(const c of commands){if(!G.enemy)break;const p=G.party[c.index];if(!p||!alive(p))continue;
-  if(c.type==="attack"){let d=Math.max(1,p.atk+rnd(5)-2);G.enemy.hp-=d;log(p.name+"の攻撃！ "+d+"ダメージ！")}
-  else if(c.type==="power"){let d=Math.max(2,p.atk+6+rnd(7));G.enemy.hp-=d;log(p.name+"の強打！ "+d+"ダメージ！")}
-  else if(c.type==="guard"){G.guards.push(c.index);log(p.name+"は身を守っている。")}
-  else if(c.type==="fire"){if(p.mp<3){log(p.name+"のMPが足りない！");continue}p.mp-=3;let d=12+p.lv*3+rnd(8);G.enemy.hp-=d;log(p.name+"の炎の魔法！ "+d+"ダメージ！")}
-  else if(c.type==="heal"){if(p.mp<4){log(p.name+"のMPが足りない！");continue}p.mp-=4;let target=G.party.filter(alive).sort((a,b)=>(a.hp/a.maxHp)-(b.hp/b.maxHp))[0];if(target){let n=Math.min(25,target.maxHp-target.hp);target.hp+=n;log(p.name+"の回復！ "+target.name+"のHPが"+n+"回復！")}}
-  else if(c.type==="partyheal"){if(p.mp<8){log(p.name+"のMPが足りない！");continue}p.mp-=8;G.party.forEach(t=>{if(alive(t))t.hp=Math.min(t.maxHp,t.hp+12)});log(p.name+"の全体回復！ みんなのHPが12回復！")}
-  else if(c.type==="potion"||c.type==="ether"){const potion=c.type==="potion";if(potion&&G.potions>0&&G.party[0].hp<G.party[0].maxHp){G.potions--;let n=Math.min(25,G.party[0].maxHp-G.party[0].hp);G.party[0].hp+=n;log("勇者にやくそう！ HPが"+n+"回復！")}else if(!potion&&G.ethers>0&&G.party[0].mp<G.party[0].maxMp){G.ethers--;let n=Math.min(10,G.party[0].maxMp-G.party[0].mp);G.party[0].mp+=n;log("勇者にMP草！ MPが"+n+"回復！")}else log("その道具は使えなかった！")}
-  if(G.enemy&&G.enemy.hp<=0){checkEnemy();return}
- }
- G.commands=[];if(G.enemy)enemyTurn();
-}
-function playerAttack(){
- if(!G.enemy)return;let h=G.hero,d=Math.max(1,h.atk+rnd(5)-2);G.enemy.hp-=d;log("勇者の攻撃！ "+d+"ダメージ！");
- if(checkEnemy())return;
- for(let i=1;i<G.party.length;i++){let p=G.party[i];if(!alive(p))continue;let dmg=Math.max(1,p.atk+rnd(4)-2);G.enemy.hp-=dmg;log(p.name+"の攻撃！ "+dmg+"ダメージ！");if(checkEnemy())return}
- enemyTurn();
-}
-function spell(type){
- let h=G.hero;
- if(type==="fire"){if(h.mp<3){log("MPが足りない！");return}h.mp-=3;let d=12+h.lv*3+rnd(8);G.enemy.hp-=d;log("メラ！ 炎が "+G.enemy.name+" を包む！ "+d+"ダメージ！");if(checkEnemy())return}
- if(type==="heal"){if(h.mp<4){log("MPが足りない！");return}h.mp-=4;let n=Math.min(25,h.maxHp-h.hp);h.hp+=n;log("ホイミ！ HPが"+n+"回復した。")}
- if(type==="partyheal"){if(h.mp<8){log("MPが足りない！");return}h.mp-=8;G.party.forEach(p=>{if(alive(p))p.hp=Math.min(p.maxHp,p.hp+12)});log("光の波が仲間を包み、HPが12回復した！")}
- enemyTurn();
-}
-function useItem(type,inBattle=false){
- if(type==="potion"){if(G.potions<1){log("やくそうがない！");return}if(G.hero.hp===G.hero.maxHp){log("HPは満タンだ！");return}G.potions--;let n=Math.min(25,G.hero.maxHp-G.hero.hp);G.hero.hp+=n;log("やくそうを使った。HPが"+n+"回復！")}
- else {if(G.ethers<1){log("MP草がない！");return}if(G.hero.mp===G.hero.maxMp){log("MPは満タンだ！");return}G.ethers--;let n=Math.min(10,G.hero.maxMp-G.hero.mp);G.hero.mp+=n;log("MP草を使った。MPが"+n+"回復！")}
- if(inBattle)enemyTurn();else render();
-}
-function enemyTurn(){
- if(!G.enemy)return;G.turn++;G.guards=G.guards||[];
- let targets=G.party.filter(alive);let target=targets[rnd(targets.length)];
- if(!target){gameOver();return}
- let d=Math.max(1,G.enemy.atk+rnd(5)-target.def);if((G.guards||[]).includes(G.party.indexOf(target)))d=Math.max(1,Math.floor(d/2));target.hp=Math.max(0,target.hp-d);log(G.enemy.name+"の攻撃！ "+target.name+"は"+d+"ダメージを受けた！");
- if(!G.party.some(alive)){gameOver();return}
- render();renderActions();
-}
-function checkEnemy(){
- if(G.enemy&&G.enemy.hp<=0){
-  const e=G.enemy;G.enemy=null;G.kills++;G.gold+=e.gold;G.hero.xp+=e.xp;log(e.name+"を倒した！ EXP "+e.xp+" / "+e.gold+"Gを獲得！");
-  if(e.boss){
-   if(e.final){G.flags.finalBoss=true;G.quests.final="done";G.over=true;G.won=true;log("魔王は消え、星の光が世界を包んだ！ エンディング達成！");say("ENDING：星明かりが世界に戻った。あなたの冒険は伝説になった！")}
-   else if(G.loc==="forest"){G.flags.forestBoss=true;G.quests.forest="done";G.quests.cave="active";G.herbs++;log("星の欠片を手に入れた！ 月影の洞窟への道が開いた。")}
-   else if(G.loc==="cave"){G.flags.caveBoss=true;G.quests.cave="done";G.quests.final="active";log("神殿の封印が解けた！ 最終決戦への道が開いた。")}
-  }
-  levelUp();render();renderActions();return true
- }
- render();return false
-}
-function levelUp(){let h=G.hero;while(h.xp>=h.lv*20){h.xp-=h.lv*20;h.lv++;h.maxHp+=8;h.maxMp+=3;h.atk+=2;h.def+=1;h.hp=h.maxHp;h.mp=h.maxMp;log("🎉 勇者がレベル"+h.lv+"に上がった！ HP・MP全回復！")}
- G.party.slice(1).forEach(p=>{if(h.lv>p.lv){p.lv=h.lv;p.maxHp+=5;p.maxMp+=2;p.atk+=1;p.hp=Math.min(p.maxHp,p.hp+5);p.mp=Math.min(p.maxMp,p.mp+2)}})}
-function gameOver(){G.enemy=null;G.over=true;G.won=false;log("パーティーは力尽きた……。村から再出発しよう。");say("GAME OVER — 「宿屋」か「最初から」で再挑戦できます。");render();renderActions()}
-function runAway(){if(!G.enemy)return;if(G.enemy.boss){log("強い魔物に退路を塞がれた！");enemyTurn();return}if(Math.random()<.7){log("うまく逃げ切った！");G.enemy=null;say("戦闘から離脱した。");render();renderActions()}else{log("逃げられない！");enemyTurn()}}
-function inn(){if(G.gold<10){log("宿泊料は10Gだ。お金が足りない！");return}G.gold-=10;healAll();log("宿屋で休んだ。HPとMPが全回復！");say("ふかふかのベッドで休み、元気いっぱいになった。");render()}
-const goods=[
- {name:"どうの剣",desc:"攻撃力 +4",price:25,kind:"weapon",atk:4},
- {name:"鉄の剣",desc:"攻撃力 +8",price:65,kind:"weapon",atk:8},
- {name:"旅人のよろい",desc:"守備力 +3",price:30,kind:"armor",def:3},
- {name:"騎士のよろい",desc:"守備力 +6",price:75,kind:"armor",def:6},
- {name:"やくそう",desc:"HPを25回復",price:8,kind:"potion"},
- {name:"MP草",desc:"MPを10回復",price:12,kind:"ether"}
+const $=id=>document.getElementById(id);const clone=x=>JSON.parse(JSON.stringify(x));
+const initialParty=[
+{id:'ren',name:'レン',role:'星守の剣士',face:'🧑🏻‍🚀',hp:42,maxHp:42,mp:12,maxMp:12,atk:11,def:5,skill:'星斬り',alive:true},
+{id:'yuna',name:'ユナ',role:'記憶を読む魔導士',face:'🧙🏻‍♀️',hp:30,maxHp:30,mp:24,maxMp:24,atk:6,def:3,skill:'蒼い火',alive:true},
+{id:'kai',name:'カイ',role:'無口な盾役',face:'🛡️',hp:50,maxHp:50,mp:8,maxMp:8,atk:8,def:9,skill:'かばう',alive:true},
+{id:'mio',name:'ミオ',role:'歌う旅の治癒師',face:'🎼',hp:34,maxHp:34,mp:20,maxMp:20,atk:5,def:4,skill:'星詠みの歌',alive:true}];
+let G;function fresh(){return {scene:0,chapter:1,gold:120,kills:0,bond:0,party:clone(initialParty),potions:3,ethers:2,flags:{},mode:'story',enemy:null,turn:0,queued:null,storyIndex:0,ended:false,log:[]}}
+// Narrative is original: four chapters, companion secrets, a choice-driven finale.
+const scenes=[
+{chapter:1,label:'第一章　星の降らない夜',art:'🏚️',speaker:'ナレーション',text:'この世界では、人が生まれた夜に星がひとつ灯る。\nそして死ぬとき、その星は空へ帰る。\n\n——十年前、空から星が消えた。\n人々はそれを「星喰み」と呼び、希望を口にしなくなった。',choices:[['物語を始める','村はずれの鐘が、十三回鳴った。',1]]},
+{chapter:1,label:'第一章　星の降らない夜',art:'🔔',speaker:'レン',text:'「十三回……？　鐘は十二回までのはずだ」\n\n亡き母の形見である小さな星石が、胸元で熱を帯びた。村の広場から、誰かの悲鳴が聞こえる。',choices:[['広場へ走る','暗闇の中で、幼い少女が黒い獣に囲まれていた。',2]]},
+{chapter:1,label:'第一章　星の降らない夜',art:'🐺',speaker:'謎の少女',text:'「来ないで！　こいつら、私の名前を食べようとしてる！」\n\n獣の目には星空が映っていた。レンが剣を抜くと、星石がまばゆく輝いた。',battle:'shadeWolf',after:3},
+{chapter:1,label:'第一章　星の降らない夜',art:'🌠',speaker:'ユナ',text:'「あなたの剣……星の力に反応したの？」\n\n少女はユナと名乗った。彼女は人の記憶を読む力を持つが、自分の過去だけは思い出せないという。',choices:[['ユナを仲間に迎える','「記憶がなくても、今ここにいる君は本物だ」レンの言葉に、ユナは初めて笑った。',4,'bond']]},
+{chapter:1,label:'第一章　星の降らない夜',art:'👴🏻',speaker:'村の司祭',text:'「星喰みは、ただ星を奪う災厄ではない。人々の記憶と、誰かを想う心を少しずつ食べていく」\n\n司祭は古い地図を広げた。北の鐘楼、その地下に星の欠片が眠っているらしい。',choices:[['鐘楼の地下へ','階段の先には、壁一面に名前が刻まれていた。最後の一行だけ、削り取られている。',5]]},
+{chapter:1,label:'第一章　第一の欠片',art:'🕯️',speaker:'カイ',text:'「……この名前、俺の字だ」\n\n鎧をまとった青年カイが現れた。彼はかつてこの鐘楼を守っていたという。だが、なぜここを離れたのか、本人にもわからない。',choices:[['カイの話を聞く','「思い出せなくても、守りたいものがある。それだけは覚えてる」カイは仲間になることを選んだ。',6,'bond']]},
+{chapter:1,label:'第一章　第一の欠片',art:'💎',speaker:'ナレーション',text:'地下祭壇に浮かぶ星の欠片。触れた瞬間、レンの脳裏に知らない景色が流れ込んだ。\n\n母が誰かを抱きしめて泣いている。\n「ごめんね。あなたを忘れるくらいなら、世界に嫌われてもいい」\n\nその声は、レンの母のものだった。',choices:[['欠片を手に取る','遠くで、誰かが静かに目を開いた。',7]]},
+{chapter:2,label:'第二章　歌のない森',art:'🌲',speaker:'ナレーション',text:'星の欠片を求め、一行は「眠り森」へ向かう。そこでは、住人たちが大切な人の名前を思い出せなくなっていた。森の奥から、聞き覚えのある子守歌が流れてくる。',choices:[['歌声の方へ進む','木々の間に、小さな家が一軒だけ残っていた。',8]]},
+{chapter:2,label:'第二章　歌のない森',art:'🎼',speaker:'ミオ',text:'「その歌……私、知ってる。なのに、誰が歌ってくれたのか思い出せない」\n\n家の前にいた旅の治癒師ミオは、歌うことで仲間の傷を癒やせた。彼女の首には、レンの星石と同じ紋章が刻まれていた。',choices:[['ミオに一緒に来てもらう','「私の記憶が誰かの役に立つなら、探す意味もあるよね」ミオはそっと頷いた。',9,'bond']]},
+{chapter:2,label:'第二章　森の守り手',art:'🦌',speaker:'森の守り手',text:'「欠片を渡せ。さもなくば、お前たちの大切な記憶を森に捧げてもらう」\n\n巨大な角を持つ獣が立ちはだかる。だが、その目には怒りではなく、深い悲しみがあった。',battle:'mossGuardian',after:10},
+{chapter:2,label:'第二章　歌のない森',art:'🌳',speaker:'森の守り手',text:'「……私は、娘の名を忘れた。忘れたくなかったのに」\n\n倒れた守り手の涙から、二つ目の欠片が現れた。ユナがそれに触れると、知らない記憶が彼女の中で目を覚ました。',choices:[['ユナの様子を見る','「私……昔、星を数える子どもだった。空から星が落ちる前に、誰かと約束したの」',11]]},
+{chapter:2,label:'第二章　忘れられた約束',art:'🌌',speaker:'ユナ',text:'「約束の相手は、顔だけが見えない。でも、私はその人を……」\n\n言葉が途切れた瞬間、森の空に黒い裂け目が走った。裂け目の向こうから、レンと同じ声が聞こえる。',choices:[['声の主を追う','「やっと来たね、レン。君が僕を忘れてくれていてよかった」',12]]},
+{chapter:3,label:'第三章　鏡の王都',art:'🏰',speaker:'ナレーション',text:'三つ目の欠片が眠る王都は、鏡の壁に囲まれていた。鏡に映る人々は、失った記憶の中で幸せそうに暮らしている。現実に戻ろうとする者は、誰もいなかった。',choices:[['王宮へ向かう','玉座に座っていたのは、顔を仮面で隠した王だった。',13]]},
+{chapter:3,label:'第三章　鏡の王都',art:'👑',speaker:'仮面の王',text:'「人は忘れるから苦しむ。悲しみも後悔も、愛した人を失う痛みも。私が星を喰らったのは、世界を救うためだ」\n\n「忘れさせることが救いなのか？」レンが問うと、王は仮面に手をかけた。',choices:[['王の仮面を見届ける','仮面の下にあった顔を見て、ユナが息を呑んだ。',14]]},
+{chapter:3,label:'第三章　鏡の王都',art:'🪞',speaker:'ユナ',text:'「……あなたは、私の兄さん？」\n\n王は、ユナが失った記憶の中にいた兄・セイだった。彼は星喰みを止めるため、世界中の悲しみを自分ひとりに集めようとした。だが、悲しみを受け止めきれず、星そのものを喰らう怪物になりかけていた。',choices:[['セイに剣を向ける','「ユナ、僕を止めてくれ。僕が僕でいられるうちに」','battle:mirrorKing',15,'bond']]},
+{chapter:3,label:'第三章　鏡の王都',art:'🗡️',speaker:'セイ',text:'「最後の欠片は、星のない空の向こうにある。そこへ行けば、すべての答えがわかる」\n\nセイは三つ目の欠片を託した。彼の姿は光となって消えたが、ユナの手には温かな指輪だけが残った。',choices:[['空の裂け目へ','四つの欠片が共鳴し、空に道が開いた。',16]]},
+{chapter:4,label:'第四章　星の向こう側',art:'🌑',speaker:'ナレーション',text:'空の向こうにあったのは、神殿ではなかった。無数の星が眠る、静かな海だった。そこに立つ人物は、レンと同じ顔をしていた。',choices:[['もうひとりのレンに話しかける','「僕は、君が生まれる前に捨てられた“最初の願い”だ」',17]]},
+{chapter:4,label:'第四章　星の向こう側',art:'🌠',speaker:'もうひとりのレン',text:'「星喰みは悪意じゃない。人々が忘れたいと願った悲しみを、誰かが受け止め続けた結果なんだ」\n\nレンの母は、世界から悲しみを消すため、最初の願いを星の海に封じた。その代償に、母は自分の息子の未来を失いかけた。',choices:[['真実を受け止める','「忘れれば、痛みは消える。でも、痛みと一緒に大切なものまで消えてしまう」',18]]},
+{chapter:4,label:'第四章　最後の選択',art:'⚖️',speaker:'もうひとりのレン',text:'星の海が崩れ始めた。世界を救う方法は二つ。\n\nひとつは、星をすべて解き放ち、悲しみも記憶も世界へ返すこと。\nもうひとつは、星を再び封じ、誰も傷つかない代わりに、誰も大切な人を思い出せない世界を作ること。\n\n仲間たちは、レンの答えを待っている。',choices:[['星喰みと最後の戦いへ','戦いの先で、世界の未来を選ぶ','battle:starEater',21]]},
+{chapter:4,label:'第四章　最後の選択',art:'⚖️',speaker:'仲間たち',text:'星喰みは消えかけている。けれど、最後の星が砕ける前に決めなければならない。世界を救う方法は二つ。\n\nひとつは、星を解き放ち、悲しみも記憶も世界へ返すこと。\nもうひとつは、星を再び封じ、誰も傷つかない代わりに、誰も大切な人を思い出せない世界を作ること。',choices:[['記憶も悲しみも、世界へ返す','ending_light',19,'light'],['悲しみを封じ、安らぎを選ぶ','ending_sleep',20,'sleep']]},
+{chapter:4,label:'終章　星明かりの朝',art:'🌅',speaker:'ナレーション',text:'夜明け。人々は失った記憶を取り戻し、泣き、笑い、名前を呼び合った。痛みは消えなかった。けれど、誰かの手を握る温かさも戻ってきた。\n\nユナは兄の指輪を胸にしまい、ミオはあの子守歌を最後まで歌った。カイは、守れなかった過去ではなく、これから守るものを見つめた。\n\nレンの星石が、空の一番高い場所で輝いた。——星は、誰かを想う心の中に生まれる。',ending:true},
+{chapter:4,label:'終章　眠り続ける世界',art:'🌙',speaker:'ナレーション',text:'世界は静かな安らぎに包まれた。誰も悲しまず、誰も過去を悔やまない。けれど、誰も誰かの名を呼ばなくなった。\n\n仲間たちはレンのそばにいる。笑顔を浮かべている。なのに、レンの胸には消えない空白があった。\n\n空には星が戻った。けれど、その光はどこか遠く、手を伸ばしても届かなかった。',ending:true}
 ];
-function shop(){showSub("shop",goods.map(g=>[`${g.name} — ${g.price}G`,g.desc,()=>buy(g)]))}
-function buy(g){
- if(G.gold<g.price){log("お金が足りない！");return}
- G.gold-=g.price;
- if(g.kind==="weapon"){G.hero.atk+=g.atk;G.hero.weapon=g.name;log(g.name+"を装備した！ 攻撃力が上がった！")}
- else if(g.kind==="armor"){G.hero.def+=g.def;G.hero.armor=g.name;log(g.name+"を装備した！ 守備力が上がった！")}
- else if(g.kind==="potion"){G.potions++;log("やくそうを買った！")}
- else{G.ethers++;log("MP草を買った！")}
- render();
-}
-function newGame(){G=fresh();$("log").innerHTML="";log("星の神殿に眠る闇が目覚めようとしている……。");log("仲間と共に、世界に星明かりを取り戻そう！");render();say(places.village.desc)}
-function saveGame(){try{localStorage.setItem("hoshiRpgSave",JSON.stringify(G));log("冒険をセーブした！")}catch(e){log("セーブできませんでした。")}}
-function loadGame(){try{let s=localStorage.getItem("hoshiRpgSave");if(!s){log("セーブデータがありません。");return}G=JSON.parse(s);log("冒険をロードした！");say(places[G.loc].desc);render()}catch(e){log("ロードできませんでした。")}}
-document.addEventListener("keydown",e=>{if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","w","a","s","d","W","A","S","D"].includes(e.key)){if(e.target&&["INPUT","TEXTAREA"].includes(e.target.tagName))return;e.preventDefault();const m={ArrowUp:[0,-12],w:[0,-12],W:[0,-12],ArrowDown:[0,12],s:[0,12],S:[0,12],ArrowLeft:[-12,0],a:[-12,0],A:[-12,0],ArrowRight:[12,0],d:[12,0],D:[12,0]};movePlayer(...m[e.key])}});
-newGame();
+const enemies={shadeWolf:{name:'影喰いの獣',face:'🐺',hp:42,atk:7,def:2,xp:18,gold:25,desc:'名前を食べる黒い獣'},mossGuardian:{name:'森の守り手',face:'🦌',hp:88,atk:10,def:4,xp:38,gold:55,desc:'悲しみに囚われた古き守護者'},mirrorKing:{name:'鏡の王',face:'👑',hp:115,atk:13,def:5,xp:60,gold:80,desc:'世界の悲しみを背負った王'},starEater:{name:'星喰み',face:'🌑',hp:155,atk:16,def:6,xp:100,gold:150,desc:'最初の願いの成れの果て'}};
+function sayScene(){let s=scenes[G.scene];$('sceneLabel').textContent=s.label;$('sceneArt').textContent=s.art;$('speaker').textContent=s.speaker;$('storyText').textContent=s.text;$('nextBtn').classList.toggle('hidden',!!(s.choices||s.battle||s.ending));$('battlefield').classList.add('hidden');$('scene').classList.remove('hidden');$('actionTitle').textContent=s.ending?'▶ 物語の結末':'▶ 選択してください';$('actions').innerHTML='';if(s.choices)renderChoices(s.choices);else if(s.battle)beginBattle(s.battle,s.after);else if(s.ending){G.ended=true;addAction('最初から遊ぶ','別の選択も試してみよう',()=>{G=fresh();sayScene();renderAll()},true);addAction('セーブする','この結末を記録する',saveGame)}renderAll()}
+function renderChoices(choices){$('actions').innerHTML='';choices.forEach(c=>addAction(c[0],c[1].startsWith('ending_')?'世界の未来を決める':(c[1].startsWith('battle:')?c[1].includes('mirrorKing')?'王との決着':'最後のボス戦':'物語を進める'),()=>{if(c[1]==='ending_light'){G.scene=19;G.flags.ending='light'}else if(c[1]==='ending_sleep'){G.scene=20;G.flags.ending='sleep'}else if(c[1].startsWith('battle:')){if(c[3]==='bond')G.bond++;beginBattle(c[1].split(':')[1],c[2])}else{if(c[3]==='bond')G.bond++;G.scene=c[2]}saySceneIfNoBattle()},true))}
+function saySceneIfNoBattle(){if(G.enemy)return;sayScene()}
+function addAction(title,desc,fn,primary=false,disabled=false){let b=document.createElement('button');b.className='action'+(primary?' primary':'');b.disabled=disabled;b.innerHTML='<strong>'+title+'</strong><small>'+desc+'</small>';b.onclick=fn;$('actions').appendChild(b);return b}
+function beginBattle(key,after){G.mode='battle';G.enemy={...enemies[key],maxHp:enemies[key].hp,key,after};G.turn=0;G.queued={};$('scene').classList.add('hidden');$('nextBtn').classList.add('hidden');$('battlefield').classList.remove('hidden');battleRender();$('actionTitle').textContent='▶ コマンドを選ぶ';battleMenu();renderAll();log('⚔ '+G.enemy.name+'が現れた！')}
+function battleRender(){let e=G.enemy;if(!e)return;$('battlefield').innerHTML='<div class="fighter"><div class="emoji">'+G.party[0].face+'</div><div class="name">レンたち</div><div class="hp">全員の状態は下に表示</div></div><div class="vs">VS</div><div class="fighter"><div class="emoji">'+e.face+'</div><div class="name">'+e.name+'</div><div class="bar"><i style="width:'+Math.max(0,e.hp/e.maxHp*100)+'%;background:var(--red)"></i></div><div class="hp">HP '+Math.max(0,e.hp)+' / '+e.maxHp+'</div></div>'}
+function battleMenu(){if(!G.enemy)return;$('actions').innerHTML='';addAction('⚔ たたかう','通常攻撃を選ぶ',()=>selectActor('attack'),true);addAction('✨ とくぎ','星斬り・蒼い火・回復の歌',()=>skillMenu());addAction('🧪 どうぐ','やくそう '+G.potions+'個 / 魔力薬 '+G.ethers+'個',()=>itemMenu());addAction('🛡 ぼうぎょ','次の敵攻撃を軽減',()=>selectActor('guard'));}
+function selectActor(type){$('actions').innerHTML='';G.party.forEach((p,i)=>{if(p.hp<=0)return;addAction(p.face+' '+p.name,p.role+' / HP '+p.hp+' MP '+p.mp,()=>{if(type==='attack'){let d=Math.max(1,p.atk+rand(5)-G.enemy.def);G.enemy.hp-=d;log(p.name+'の攻撃！ '+d+'ダメージ！');afterPlayerAction()}else if(type==='guard'){p._guard=true;log(p.name+'は身構えた。');enemyTurn()} });});addAction('もどる','コマンド選択へ',battleMenu)}
+function skillMenu(){$('actions').innerHTML='';G.party.forEach((p,i)=>{if(p.hp<=0)return;let cost= p.id==='ren'?4:p.id==='yuna'?5:p.id==='kai'?3:4;let desc=p.id==='ren'?'敵に強力な一撃':p.id==='yuna'?'魔法で大ダメージ':p.id==='kai'?'仲間全体を守る':'仲間全員を回復';addAction(p.face+' '+p.skill,'MP '+cost+' / '+desc,()=>{if(p.mp<cost){toast('MPが足りない！');return}p.mp-=cost;if(p.id==='ren'){let d=Math.max(8,p.atk*2+rand(8)-G.enemy.def);G.enemy.hp-=d;log('レンの星斬り！ '+d+'ダメージ！')}else if(p.id==='yuna'){let d=Math.max(10,18+rand(10)-G.enemy.def);G.enemy.hp-=d;log('ユナの蒼い火！ '+d+'ダメージ！')}else if(p.id==='kai'){G.party.forEach(q=>q._guard=true);log('カイが全員をかばう！')}else{G.party.forEach(q=>{if(q.hp>0)q.hp=Math.min(q.maxHp,q.hp+18)});log('ミオの歌が仲間を癒やす！')}afterPlayerAction()})});addAction('もどる','コマンド選択へ',battleMenu)}
+function itemMenu(){$('actions').innerHTML='';addAction('🧪 やくそう ×'+G.potions,'HPが一番減った仲間を25回復',()=>{if(!G.potions)return toast('やくそうがない！');G.potions--;let p=G.party.filter(p=>p.hp>0).sort((a,b)=>(a.hp/a.maxHp)-(b.hp/b.maxHp))[0];if(p)p.hp=Math.min(p.maxHp,p.hp+25);log('やくそうを使った。');enemyTurn()});addAction('🔷 魔力薬 ×'+G.ethers,'全員のMPを6回復',()=>{if(!G.ethers)return toast('魔力薬がない！');G.ethers--;G.party.forEach(p=>p.mp=Math.min(p.maxMp,p.mp+6));log('魔力薬を使った。');enemyTurn()});addAction('もどる','コマンド選択へ',battleMenu)}
+function afterPlayerAction(){if(G.enemy.hp<=0){winBattle();return}battleRender();renderAll();enemyTurn()}
+function enemyTurn(){if(!G.enemy)return;if(G.enemy.hp<=0){winBattle();return}G.turn++;let targets=G.party.filter(p=>p.hp>0);if(!targets.length){log('仲間たちは倒れてしまった……。');G.party.forEach(p=>{p.hp=Math.max(1,Math.floor(p.maxHp*.4));p.mp=Math.max(1,Math.floor(p.maxMp*.4));p._guard=false});G.gold=Math.floor(G.gold*.9);G.enemy.hp=G.enemy.maxHp;log('村で目を覚ました。所持金の一部を失った。');G.mode='story';G.enemy=null;sayScene();return}let t=targets[rand(targets.length)];let dmg=Math.max(1,G.enemy.atk+rand(5)-t.def);if(t._guard){dmg=Math.max(1,Math.floor(dmg*.4));t._guard=false}t.hp=Math.max(0,t.hp-dmg);log(G.enemy.name+'の攻撃！ '+t.name+'に'+dmg+'ダメージ！');if(G.turn%3===0&&G.enemy.hp<G.enemy.maxHp*.6){let healed=Math.min(8,G.enemy.maxHp-G.enemy.hp);G.enemy.hp+=healed;log(G.enemy.name+'は星の力でHPを'+healed+'回復した！')}battleRender();renderAll();battleMenu()}
+function winBattle(){let e=G.enemy;G.kills++;G.gold+=e.gold;log(e.name+'を倒した！ '+e.gold+'Gを手に入れた。');G.party.forEach(p=>{p.hp=Math.min(p.maxHp,p.hp+5);p.mp=Math.min(p.maxMp,p.mp+3)});let after=e.after;G.enemy=null;G.mode='story';if(after===3){G.scene=3}else if(after===10){G.scene=10}else if(after===15){G.scene=15}else{G.scene=after||G.scene+1}sayScene()}
+function rand(n){return Math.floor(Math.random()*n)}function log(t){G.log.unshift(t);G.log=G.log.slice(0,24);$('log').innerHTML=G.log.map(x=>'<p>› '+escapeHtml(x)+'</p>').join('')}function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function toast(t){$('toast').textContent=t;setTimeout(()=>{$('toast').textContent=''},1800)}
+function renderAll(){ $('gold').textContent=G.gold;$('kills').textContent=G.kills;$('bond').textContent=G.bond;$('chapterStat').textContent=String(G.chapter).padStart(2,'0')+' / 04';G.chapter=scenes[G.scene]?.chapter||4;$('chapterStat').textContent=String(G.chapter).padStart(2,'0')+' / 04';$('party').innerHTML=G.party.map(p=>'<div class="member"><div class="member-head"><span>'+p.face+' '+p.name+'</span><span class="role">'+p.role+'</span></div><div class="bar"><i style="width:'+Math.max(0,p.hp/p.maxHp*100)+'%;background:'+(p.hp/p.maxHp<.25?'var(--red)':'var(--green)')+'"></i></div><small>HP '+p.hp+'/'+p.maxHp+'</small><div class="bar mp"><i style="width:'+p.mp/p.maxMp*100+'%"></i></div><small>MP '+p.mp+'/'+p.maxMp+'</small></div>').join('');if(G.enemy)battleRender()}
+$('nextBtn').onclick=()=>{if(G.scene===0){G.scene=1}else{G.scene=Math.min(G.scene+1,scenes.length-1)}sayScene()};$('saveBtn').onclick=()=>{try{localStorage.setItem('hoshiRpgV2',JSON.stringify(G));toast('セーブしたよ！')}catch(e){toast('セーブできませんでした')}};$('loadBtn').onclick=()=>{try{let s=localStorage.getItem('hoshiRpgV2');if(!s){toast('セーブデータがないよ');return}G=JSON.parse(s);if(G.enemy){G.mode='battle';$('scene').classList.add('hidden');$('battlefield').classList.remove('hidden');battleRender();battleMenu()}else sayScene();renderAll();toast('ロードしたよ！')}catch(e){toast('ロードできませんでした')}};$('resetBtn').onclick=()=>{if(confirm('最初から遊ぶ？ 今の進行状況は消えるよ。')){G=fresh();G.log=[];log('— 星明かりの記録帳 —');sayScene()}};
+G=fresh();log('— 星明かりの記録帳 —');sayScene();
 </script></body></html>
