@@ -151,7 +151,7 @@ function pixelArt(scene="village",enemy=null){
  boss:["......PP....PP......",".....PPPP..PPPP.....","....PPPPPPPPPPPP....","...PPPPPPPPPPPPPP...","..PPPPPPPPPPPPPPPP..","..PPPPPEPPPPPEPPP...","..PPPPPPPPPPPPPPPP..","...PPPPPRRRPPPPP....","....PPPPPPPPPPPP.....","...pppPPPPPPppp......","..ppppPP..PPpppp.....","..pppPP....PPppp.....","..pppPP....PPppp.....","...ppP......Ppp......"],
  final:[".......YY....YY.......","......YYYY..YYYY......",".....YYYYYYYYYYYY.....","....YYYYYYYYYYYYYY....","...YYYYYYYYYYYYYYYY...","..YYYYYYYYYYYYYYYYYY..","..YYYYYEYYYYYEYYYYYY...","..YYYYYYYYYYYYYYYYYY...","...YYYYYYRRYYYYYYY.....","....YYYYYYYYYYYYY......","...YYYPPYYYYYYPPYYY....","..YYYPPPYYYYYYPPPYYY...","..YYPPPP......PPPPYY...","..YYPPPP......PPPPYY...","...YPP..........PPY...."]
  };
- function drawMonster(type,x,y,scale=3){const real={beast:"bear",spirit:"griffin",boss:"lizard",final:"hydra"}[type]||"bear";const im=spriteImgs[real];if(im&&im.complete&&im.naturalWidth){drawRealSprite(ctx,real,x,y,94,80,false);return;}let map=monsterMaps[type]||monsterMaps.beast;map.forEach((row,yy)=>[...row].forEach((ch,xx)=>{let col=monsterPal[ch];if(col)rect(x+xx*scale,y+yy*scale,scale,scale,col)}));}
+ function drawMonster(type,x,y,scale=3){const real={beast:"bear",spirit:"griffin",boss:"lizard",final:"hydra"}[type]||"bear";const im=spriteImgs[real];if(im&&im.complete&&im.naturalWidth){drawRealSprite(ctx,real,x,y,94,80,true);return;}let map=monsterMaps[type]||monsterMaps.beast;map.forEach((row,yy)=>[...row].forEach((ch,xx)=>{let col=monsterPal[ch];if(col)rect(x+xx*scale,y+yy*scale,scale,scale,col)}));}
  let sky=scene==="sky"||scene==="final"?"#101936":scene==="forest"?"#152c2a":scene==="castle"?"#1a2038":"#101c37";rect(0,0,w,h,sky);
  for(let i=0;i<82;i++){let x=(i*47+13)%w,y=(i*29+5)%92;rect(x,y,i%9===0?2:1,i%9===0?2:1,i%4===0?"#ffe9a1":"#b8d7ff")}
  if(scene==="village"||scene==="castle"){
@@ -174,7 +174,10 @@ function pixelArt(scene="village",enemy=null){
   // Battle orientation is intentionally fixed by screen position:
   // party is on the left and faces RIGHT; the enemy is on the right and faces LEFT.
   shadow(207,133,103);drawMonster(type,207,50,3);
-  shadow(7,135,126);drawSprite("yu",5,83,1.55,true);drawSprite("ma",35,91,1.45,true);drawSprite("re",64,91,1.45,true);drawSprite("ka",94,91,1.45,true);
+  shadow(7,135,126);
+  // Battle: party stays on the left and all four heroes face RIGHT.
+  // The ranger source sprite is authored in the opposite direction, so it must NOT be flipped here.
+  drawSprite("yu",5,83,1.55,true);drawSprite("ma",35,91,1.45,true);drawSprite("re",64,91,1.45,true);drawSprite("ka",94,91,1.45,false);
   // Distinct details for a named wolf-like shadow beast: muzzle, fangs, ears and tail.
   if(key==="shade"){
    rect(215,82,15,6,"#617b92");rect(209,80,10,4,"#8fa8bb");rect(231,88,3,4,"#ffe79a");rect(240,89,3,4,"#ffe79a");rect(223,96,9,3,"#25364b");rect(270,88,18,3,"#344d68");rect(282,82,8,4,"#617b92");
@@ -182,7 +185,8 @@ function pixelArt(scene="village",enemy=null){
   if(key==="golem"){rect(228,91,44,25,"#6b8194");rect(235,83,30,15,"#879eb0");rect(240,88,5,4,"#ffdc78");rect(256,88,5,4,"#ffdc78");rect(232,115,11,15,"#34485f");rect(258,115,11,15,"#34485f")}
  }else{
   shadow(38,137,160);shadow(73,137,36);shadow(109,137,36);shadow(145,137,36);
-  drawSprite("yu",38,80,2);drawSprite("ma",74,84,2);drawSprite("re",110,84,2);drawSprite("ka",146,84,2);
+  // Opening/exploration lineup: all four heroes face RIGHT as requested.
+  drawSprite("yu",38,80,2);drawSprite("ma",74,84,2);drawSprite("re",110,84,2);drawSprite("ka",146,84,2,true);
  }
  if(scene==="final"){rect(151,10,4,77,"#f5e7a1");rect(145,22,16,4,"#fff3c1");rect(149,18,8,12,"#f9f2d2")}
 }
