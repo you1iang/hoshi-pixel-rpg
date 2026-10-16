@@ -80,11 +80,13 @@ const spriteSrc = {
 };
 const spriteImgs = {};
 for (const [key,src] of Object.entries(spriteSrc)) { const im = new Image(); im.src = src; spriteImgs[key] = im; }
-function drawRealSprite(ctx,key,x,y,maxW,maxH){
+function drawRealSprite(ctx,key,x,y,maxW,maxH,flipX=false){
  const im=spriteImgs[key]; if(!im)return;
  if(!im.complete || !im.naturalWidth){ im.onload=()=>{try{if(typeof G!=="undefined"&&G){if(G.battle){const b=G.battle;pixelArt(b.kind==="final"?"final":"battle",b)}else{pixelArt(G.chapter===4?"final":G.chapter===2?"forest":G.chapter===3?"sky":G.chapter===1?"castle":"village")}drawParty()}else pixelArt()}catch(e){}}; return; }
  const s=Math.min(maxW/im.naturalWidth,maxH/im.naturalHeight); const ww=im.naturalWidth*s,hh=im.naturalHeight*s;
- ctx.drawImage(im,Math.round(x+(maxW-ww)/2),Math.round(y+(maxH-hh)),Math.round(ww),Math.round(hh));
+ const dx=Math.round(x+(maxW-ww)/2),dy=Math.round(y+(maxH-hh)),dw=Math.round(ww),dh=Math.round(hh);
+ if(flipX){ctx.save();ctx.translate(dx*2+dw,0);ctx.scale(-1,1);ctx.drawImage(im,dx,dy,dw,dh);ctx.restore();}
+ else ctx.drawImage(im,dx,dy,dw,dh);
 }
 
 const chapters=[
@@ -138,7 +140,7 @@ function pixelArt(scene="village",enemy=null){
  reina:["....HHHHHH.......","...hHHHHHHh......","...hhhhhhhhh.....","...hssssssssh....","...hsessesssh....","....sssssssss....",".....ssrrss......","....BBBBBBBB.....","...BBCCCCCCBB....","..BBBCCCCCCBBB...","..BBbBCCCCBbBB...","...BBbCCCCbBB....","....BBggggBB.....","....BBggggBB.....",".....kk..kk......",".....kk..kk......","....kkk..kkk.....","....kkk..kkk....."],
  kyle:[".....HHHHHH......","....hHHHHHHh.....","....hhhhhhhhh....","....hsssssssh....","....hsessessh....",".....sssssss.....","......srrs.......","....BBBBBBBBBB...","...BBCCCCCCCCBB..","...BBCbCCCCbCBB..","...BBBBCCCCBBBB..","....BBggggggBB...","....BBggggggBB...","....BBggggggBB...","....kkk....kkk...","....kkk....kkk...","...kkkk....kkkk..","...kkkk....kkkk.."]
  };
- function drawSprite(key,x,y,scale=2){key=({maria:"ma",reina:"re",kyle:"ka"}[key]||key);const im=spriteImgs[key];if(im&&im.complete&&im.naturalWidth){const targetW=key==="yu"?46:key==="maria"?40:42;const targetH=key==="yu"?58:56;drawRealSprite(ctx,key,x,y,targetW,targetH);return;}let map=sprites[key],pal=palettes[key];if(!map)return;map.forEach((row,yy)=>[...row].forEach((ch,xx)=>{let col=pal[ch];if(col)rect(x+xx*scale,y+yy*scale,scale,scale,col)}));}
+ function drawSprite(key,x,y,scale=2,flipX=false){key=({maria:"ma",reina:"re",kyle:"ka"}[key]||key);const im=spriteImgs[key];if(im&&im.complete&&im.naturalWidth){const targetW=key==="yu"?46:key==="maria"?40:42;const targetH=key==="yu"?58:56;drawRealSprite(ctx,key,x,y,targetW,targetH,flipX);return;}let map=sprites[key],pal=palettes[key];if(!map)return;map.forEach((row,yy)=>[...row].forEach((ch,xx)=>{let col=pal[ch];if(col){const px=flipX?x+(row.length-1-xx)*scale:x+xx*scale;rect(px,y+yy*scale,scale,scale,col)}}));}
  const wolf=[
  "..................GGG...........","...............GGGGGGG..........","..............GGGHHGGGGG.........",".............GGGGGHHGGGGG........","............GGGGGGGGGGGGG.......","......GGGGGGGGGGGGGGGGGGGGG......","....GGGGGGGGGGGGGGGGGGGGGGGGG....","...GGGGGGGGGGGGGGGGGGGGGGGGGGG...","..GGGGGGGGGGGGGGGGGGGGGGGGGGGGG..","..GGGGGGGGGGGGGGGGGGGGGGGGGGGGG..","...GGGGGGGGGGGGGGGGGGGGGGGGGGGG...","....GGGGGGGGGGGGGGGGGGGGGGGGGG....",".....GGGGGGGGGGGGGGGGGGGGGGGG......","......GGGGGGGGGGGGGGGGGGGGG.........",".......GGGGGGGGGGGGGGGGGG............",".......GGG..GGG....GGG..GG............","......GGG....GGG..GGG....GGG...........","......GGG....GGG..GGG....GGG...........","......GGG....GGG..GGG....GGG...........",".......GGG..GGG....GGG..GG.............."];
  const monsterPal={'.':null,'G':'#617b92','g':'#344d68','L':'#8fa8bb','H':'#25364b','E':'#ffe79a','M':'#c6d4dc','T':'#d5a8a1','R':'#914b5a','P':'#735a93','p':'#493963','Y':'#f1d47c','W':'#c4d6e8','B':'#2b314e','X':'#12172b'};
@@ -170,7 +172,7 @@ function pixelArt(scene="village",enemy=null){
   if(key==="wisp")type="spirit";else if(["memory","clock"].includes(key))type="final";else if(["knight","thorn","golem","kyle"].includes(key))type="boss";else if(key==="void")type="final";
   shadow(207,133,103);drawMonster(type,207,50,3);
   // The party is visible on the left side during battle, facing the monster.
-  shadow(7,135,126);drawSprite("yu",5,83,1.55);drawSprite("ma",35,91,1.45);drawSprite("re",64,91,1.45);drawSprite("ka",94,91,1.45);
+  shadow(7,135,126);drawSprite("yu",5,83,1.55,true);drawSprite("ma",35,91,1.45,true);drawSprite("re",64,91,1.45,true);drawSprite("ka",94,91,1.45,true);
   // Distinct details for a named wolf-like shadow beast: muzzle, fangs, ears and tail.
   if(key==="shade"){
    rect(215,82,15,6,"#617b92");rect(209,80,10,4,"#8fa8bb");rect(231,88,3,4,"#ffe79a");rect(240,89,3,4,"#ffe79a");rect(223,96,9,3,"#25364b");rect(270,88,18,3,"#344d68");rect(282,82,8,4,"#617b92");
