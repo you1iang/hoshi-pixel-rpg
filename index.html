@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#10172b">
-<title>星を継ぐ者たち — 失われた記憶と、もう一つの未来</title>
+<title>星を継ぐ者たち — 黒冠の王・シナリオ改訂版</title>
 <style>
 :root{--bg:#0b1020;--panel:#151f36;--panel2:#0d1529;--line:#6c8bb8;--gold:#f6d77a;--text:#f5f3e8;--muted:#aab8d0;--blue:#70c6ff;--red:#ff8585;--green:#8be0a1}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(ellipse at top,#263d68 0%,#0b1020 68%);color:var(--text);font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif}
 body{padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
 .app{max-width:760px;margin:auto;padding:10px 12px 24px}.brand{text-align:center;padding:8px 4px 12px}.eyebrow{font-size:11px;letter-spacing:.3em;color:var(--blue)}h1{font-size:clamp(23px,6vw,36px);margin:5px 0 3px;color:#fff3c5;text-shadow:0 3px #584d76,0 0 18px #74a8ff;letter-spacing:.08em}.subtitle{font-size:12px;color:#c1cce0}
 .panel{background:linear-gradient(145deg,rgba(26,39,65,.97),rgba(11,19,37,.98));border:2px solid #405b83;border-radius:10px;padding:12px;margin:9px 0;box-shadow:0 5px 0 #070b16, inset 0 0 0 1px #172943}
-h2{font-size:15px;margin:0 0 9px;color:var(--gold);letter-spacing:.06em}.small{font-size:12px;color:var(--muted);line-height:1.65}.scene{background:#080e1d;border:2px solid #9ab9e5;border-radius:7px;overflow:hidden;position:relative;box-shadow:0 0 0 2px #101a2c,0 0 22px #3e6fb355}.scene canvas{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges}.sceneLabel{position:absolute;top:7px;left:8px;padding:3px 7px;background:#081122dc;border:1px solid #8aa9d4;border-radius:4px;font-size:11px;color:#dceaff}
+h2{font-size:15px;margin:0 0 9px;color:var(--gold);letter-spacing:.06em}.small{font-size:12px;color:var(--muted);line-height:1.65}.scene{background:#080e1d;border:2px solid #9ab9e5;border-radius:7px;overflow:hidden;position:relative;box-shadow:0 0 0 2px #101a2c,0 0 22px #3e6fb355}.scene canvas{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges}.scene.motion-hero canvas{animation:heroStrike .42s steps(4,end)}.scene.motion-enemy canvas{animation:enemyStrike .42s steps(4,end)}.scene.motion-hit{animation:sceneHit .3s steps(2,end)}@keyframes heroStrike{0%{transform:translateX(0)}35%{transform:translateX(12px)}65%{transform:translateX(-3px)}100%{transform:translateX(0)}}@keyframes enemyStrike{0%{transform:translateX(0)}35%{transform:translateX(-10px)}65%{transform:translateX(3px)}100%{transform:translateX(0)}}@keyframes sceneHit{0%,100%{filter:brightness(1)}50%{filter:brightness(1.8) saturate(1.5)}}.sceneLabel{position:absolute;top:7px;left:8px;padding:3px 7px;background:#081122dc;border:1px solid #8aa9d4;border-radius:4px;font-size:11px;color:#dceaff}
 .dialogue{margin-top:9px;background:#070d1c;border:2px solid #8ba8d1;border-radius:6px;padding:11px;line-height:1.85;font-size:14px;white-space:pre-line;min-height:70px}.speaker{font-size:12px;color:var(--gold);margin-bottom:4px;font-weight:800}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.btn{border:1px solid #6486b3;background:linear-gradient(#243b5f,#152541);padding:11px 9px;border-radius:6px;text-align:left;min-height:47px;box-shadow:0 3px 0 #080e1b;font-size:13px;line-height:1.45}.btn:active{transform:translateY(2px);box-shadow:0 1px 0 #080e1b}.btn strong{display:block;color:#fff1bc;font-size:13px}.btn small{display:block;color:#bacce3;font-size:11px;margin-top:3px}.btn.gold{border-color:#d4b866;background:linear-gradient(#51482d,#292a30)}.btn.red{border-color:#ba7777}.btn:disabled{opacity:.42;cursor:not-allowed}
 .row{display:flex;gap:8px;align-items:center;justify-content:space-between}.pill{font-size:11px;padding:3px 7px;border:1px solid #506b91;border-radius:20px;color:#cfe4ff}.status{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.member{padding:8px;background:#0a1326;border:1px solid #344d70;border-radius:6px;min-width:0}.memberTop{display:flex;gap:8px;align-items:center}.portrait{width:46px;height:46px;flex:none;background:#07101f;border:1px solid #526d94;border-radius:4px}.name{font-weight:800;font-size:13px}.role{font-size:10px;color:var(--gold)}.statline{font-size:11px;margin-top:5px;color:#d6e2f4}.bar{height:5px;background:#26334b;border-radius:6px;overflow:hidden;margin-top:3px}.bar span{display:block;height:100%;background:var(--green)}.bar.mp span{background:#72b9ff}
@@ -91,11 +91,11 @@ function drawRealSprite(ctx,key,x,y,maxW,maxH,flipX=false){
 }
 
 const chapters=[
-{title:"第一章　星降りの夜",place:"ルミナ村",intro:"十七年前、空から七つの星が消えた夜。世界は少しずつ、昨日の記憶を失い始めた。辺境の村ルミナで暮らす青年ユウは、星祭りの夜に、誰も知らない声を聞く。『星を返して。そうしなければ、君は君自身を忘れる』。その瞬間、夜空に黒い亀裂が走った。",objective:"村を襲った影の獣を退け、青い星片を調べる",boss:"記憶喰らい",after:"星片に触れたユウは、見知らぬ少女の記憶を見る。少女は自分を『セレネ』と呼び、ユウの名を知っていた。村の古老は、北の王都に星片の記録があると告げる。"},
-{title:"第二章　沈黙の王都",place:"王都アステラ",intro:"王都では、王の名を覚えている者が一人もいなかった。玉座だけが残り、王家の肖像画は白紙に変わっている。王都の記録官マリアは、禁書庫に残された一行を見つける。『星を集める者は、世界を救うのではない。世界を選び直すのだ』。",objective:"禁書庫の封印を解き、星片の真実を探る",boss:"白銀の騎士",after:"禁書庫の奥で、マリアは自分の家系が星の封印を守る一族だと知る。騎士は倒れる直前、敵ではなく王都を守っていたのだと語った。彼が守っていた扉の向こうには、空に浮かぶ古代都市の地図があった。"},
-{title:"第三章　時を編む森",place:"エルディア樹海",intro:"樹海の奥では、昨日と明日が同じ道に重なっていた。森の守り手レイナは、何度も同じ別れを夢に見るという。旅人たちは、まだ出会っていない仲間の声を聞き、失ったはずの人の影を見た。森の中心に立つ大樹は、ユウに問いかける。『救いたい過去のために、今を捨てる覚悟はあるか』。",objective:"時の樹を守る三つの紋章を集める",boss:"逆さ時計の魔人",after:"レイナは、未来の自分が世界を滅ぼす場面を見せられる。しかし彼女は未来を拒むのではなく、選び直すと決める。星片は過去を戻す鍵ではなく、可能性を一つに縛る鎖だった。"},
-{title:"第四章　空葬の城",place:"天空城ネメシア",intro:"雲海の上に眠る天空城は、世界がまだ一つだった時代の記憶を宿していた。そこで一行は、敵の将軍カイルと出会う。彼は星を奪う理由を語る。星の力で世界を一つの正しい歴史に戻せば、誰も大切な人を失わずに済むのだと。彼の言葉は、ユウ自身が心の奥で願っていたことでもあった。",objective:"天空城の四つの試練を越え、星の核へ向かう",boss:"星喰いの将軍カイル",after:"カイルの仮面の下にあったのは、ユウと同じ星の紋章だった。二人は幼い頃、同じ事故で記憶を失っていた。カイルこそ、消えた星の守護者の一人。そして星を集める声の主は、世界を壊した魔王ではなかった。"},
-{title:"第五章　ふたつの夜明け",place:"星の心臓",intro:"世界の中心で、セレネが目を覚ました。彼女は最初の星守であり、世界が分かたれた日に、自らの記憶を七つの星に封じた存在だった。世界は一度、悲しみを消すためにすべての選択を奪われかけた。セレネはその過ちを止めるため、世界から自分の存在を消したのだ。いま、最後の星が問う。『悲しみのない世界と、誰かを失うかもしれない自由。君はどちらを選ぶ？』",objective:"星の審判を越え、世界の未来を選ぶ",boss:"星の心臓・虚無の王",after:"最後の選択が世界の姿を決める。星の光は、誰かが決めた正しさではなく、一人ひとりが選ぶ明日を照らすためにある。"}
+{title:"第一章　黒冠の王",place:"王都アステラ",intro:"王都アステラでは、三日間、鐘が鳴り続けていた。王は戦争で失った民を取り戻すため、地下神殿から発掘された『黒冠』を身につけた。最初は病人を癒やし、飢えを満たした奇跡の冠。しかし今、王は反対する者を反逆者と呼び、王都の門を閉ざしている。夜ごと城から聞こえるのは、王自身の声ではない誰かの泣き声だった。ユウたちは、王を倒すためではなく、王を王に戻すために城へ向かう。",objective:"城の封鎖を突破し、黒冠に囚われた王を救う",boss:"黒冠の王",after:"黒冠が砕けると、王は血に濡れた手で玉座から崩れ落ちた。正気を取り戻した王は、自分が何をしたかを覚えていた。『私は死者を呼び戻したかった。冠は、彼らの声を聞かせてくれた……』王は冠の裏側に刻まれた紋章を見せる。それは王国の紋章ではなく、星が空から消えた夜に現れた黒い裂け目と同じ形だった。王都は救われた。だが、冠を作った者はまだどこかにいる。"},
+{title:"第二章　救済の代償",place:"灰の巡礼路",intro:"王都を救って一週間。人々は王の帰還を祝ったが、城下町では別の異変が起きていた。黒冠に触れた者たちが、失った家族の声を聞き始めたのだ。声に導かれた人々は夜の街から消え、残された家には、本人しか知らない思い出が黒い灰となって積もっていた。王の記録を調べるため、ユウたちは巡礼路へ向かう。そこで出会った追放司祭セラは、冠が願いを叶えたのではなく、願いを餌に人の心へ入り込んだのだと告げる。",objective:"消えた巡礼者を追い、黒冠を作った工房を探す",boss:"灰鐘の審問官",after:"審問官の仮面の下にあったのは、王都で死んだはずの騎士の顔だった。彼は黒冠に操られていたのではない。死者を呼び戻す研究を、自ら望んで手伝っていたのだ。工房の壁には七つの星と四人の守り手が描かれていた。ユウの胸の紋章が光る。『王を救った者こそ、次の器になる』——それは脅しではなく、工房に残された実験記録の結論だった。"},
+{title:"第三章　死者の声が眠る森",place:"灰白の樹海",intro:"工房の記録を追い、ユウたちは灰白の樹海へ入る。ここでは、死者の記憶が霧となって木々に宿り、歩く者の最も強い後悔を映し出す。弓使いのレイナは、森の奥で自分が見捨てた弟の声を聞く。セラはそれが本物の魂ではなく、記憶から作られた影だと知っている。それでも彼女は、影を斬ることが正しいのか答えられない。森の主は、ユウに一つだけ尋ねる。『救うとは、相手を戻すことか。それとも、別れを受け入れることか』",objective:"森に囚われた仲間の記憶を解き、根源の祭壇へ進む",boss:"悔恨の樹母",after:"レイナは弟の幻に別れを告げ、初めて自分の足で森を出た。祭壇で見つかったのは、黒冠の設計図ではなく、王国より古い『星守計画』の記録だった。世界には、悲しみを消すために人の記憶を集める仕組みが、はるか昔から存在していた。黒冠はその一部にすぎない。そして、その計画を止めた人物の名は、すべての記録から削り取られていた。"},
+{title:"第四章　裏切りの星砦",place:"星砦ヴァルグ",intro:"星守計画の最後の記録を求め、一行は崩れかけた星砦へ向かう。砦を支配する将軍カイルは、ユウたちの行く手を阻むが、彼の兵は誰一人として民を傷つけない。カイルは告げる。黒冠を作ったのは、世界から戦争も病も死も消そうとした自分たちの組織だと。だが計画を止めれば、すでに記憶を捧げた人々は二度と戻らない。計画を続ければ、やがて生きている者の心まで失われる。どちらを選んでも、誰かが代償を払う。",objective:"星砦の封印を解き、計画の中心へ向かう",boss:"星砦将軍カイル",after:"カイルを倒すと、彼は剣を手放し、ユウの胸に浮かぶ紋章を見つめた。『お前も、あの夜に選ばれたのか』。二人の記憶には、幼い頃に同じ場所で見た黒い星が刻まれていた。カイルは敵ではなく、計画を内側から壊そうとしていた最後の守り手だった。だが彼が隠していた真実は、さらに残酷だった。黒冠を動かすには、世界で最も強い願いを持つ者が、新しい核にならなければならない。"},
+{title:"第五章　願いを喰らう星",place:"星の心臓",intro:"黒い裂け目の向こうにあったのは、魔王の玉座ではなく、無数の記憶が吊るされた静かな庭だった。そこでユウたちは、計画の創始者セレネと対面する。彼女は世界を支配したかったのではない。最初に失った家族を取り戻そうとして、悲しみを消す仕組みを作ったのだ。仕組みは願いを叶えるたびに、次の願いを必要とし、最後には願う者そのものを喰らう。セレネはユウに最後の選択を委ねる。黒冠を破壊して失われた人々を手放すか、核となって世界中の悲しみを永遠に引き受けるか。",objective:"星の心臓を止め、仲間と世界の未来を選ぶ",boss:"願い喰らい・セレネ",after:"最後の戦いのあと、星の心臓は静かに脈打つのをやめた。誰も失ったものをすべて取り戻したわけではない。けれど、誰かの痛みを奪うために、別の誰かの心を差し出す必要もなくなった。王は裁きを受けることを選び、巡礼者たちは帰る道を探し始めた。ユウたちは、悲しみを消すのではなく、悲しみを抱えたまま歩ける世界を作るために旅を続ける。"}
 ];
 const baseParty=[
 {id:"yu",name:"ユウ",role:"星剣士",level:1,xp:0,xpNext:25,hp:42,maxHp:42,mp:12,maxMp:12,atk:10,def:5,mag:4,weapon:"旅人の剣",armor:"革の服",skills:["斬撃","星火斬り"],color:"#df965b",hair:"#563326",friend:0,alive:true},
@@ -104,14 +104,19 @@ const baseParty=[
 {id:"ka",name:"カイル",role:"影の騎士",level:1,xp:0,xpNext:25,hp:39,maxHp:39,mp:13,maxMp:13,atk:9,def:7,mag:5,weapon:"黒鉄の剣",armor:"騎士の鎧",skills:["影突き","守護陣"],color:"#83a9e6",hair:"#252e50",friend:0,alive:true}
 ];
 const enemyDefs={
+blackKing:{name:"黒冠の王",hp:68,atk:12,def:4,xp:55,gold:35,kind:"boss",moves:["黒冠の波動","王の剣","喪失の叫び"]},
 shade:{name:"影喰いの獣",hp:34,atk:8,def:2,xp:16,gold:9,kind:"beast",moves:["かみつく","影の爪"]},
 memory:{name:"記憶喰らい",hp:76,atk:11,def:4,xp:45,gold:30,kind:"boss",moves:["記憶を削る","闇の波動","影の爪"]},
 wisp:{name:"星屑ウィスプ",hp:48,atk:10,def:3,xp:22,gold:15,kind:"spirit",moves:["星弾","ひかりの粉"]},
+inquisitor:{name:"灰鐘の審問官",hp:105,atk:15,def:6,xp:75,gold:52,kind:"boss",moves:["灰鐘の裁き","亡者の手","沈黙の鎖"]},
 knight:{name:"白銀の騎士",hp:92,atk:14,def:7,xp:65,gold:45,kind:"boss",moves:["銀剣一閃","盾砕き","誓いの光"]},
+treeMother:{name:"悔恨の樹母",hp:132,atk:17,def:7,xp:98,gold:64,kind:"boss",moves:["記憶の根","悔恨の花粉","枝の檻"]},
 thorn:{name:"茨の番人",hp:64,atk:13,def:5,xp:36,gold:23,kind:"beast",moves:["茨の鞭","根縛り"]},
 clock:{name:"逆さ時計の魔人",hp:118,atk:17,def:7,xp:90,gold:62,kind:"boss",moves:["時砕き","巻き戻し","時の針"]},
 golem:{name:"雲鉄ゴーレム",hp:78,atk:15,def:8,xp:48,gold:34,kind:"machine",moves:["落雷拳","大地震"]},
-kyle:{name:"星喰いの将軍カイル",hp:145,atk:20,def:9,xp:125,gold:80,kind:"boss",moves:["黒星斬り","虚空の盾","星喰らい"]},
+kyle:{name:"星砦将軍カイル",hp:155,atk:20,def:9,xp:130,gold:85,kind:"boss",moves:["星砦斬り","守護障壁","黒星連撃"]},
+kyleOld:{name:"星喰いの将軍カイル",hp:145,atk:20,def:9,xp:125,gold:80,kind:"boss",moves:["黒星斬り","虚空の盾","星喰らい"]},
+selene:{name:"願い喰らい・セレネ",hp:205,atk:24,def:11,xp:240,gold:160,kind:"final",moves:["記憶の雨","願いの鎖","星の崩落"]},
 void:{name:"虚無の王",hp:190,atk:23,def:11,xp:220,gold:150,kind:"final",moves:["終焉の鐘","記憶消去","虚無の奔流"]}
 };
 const itemsDef={
@@ -124,6 +129,7 @@ cloak:{name:"星糸の外套",desc:"守備力+3",price:38,type:"armor",power:3}
 let G;
 function fresh(){return {chapter:0,stage:"intro",party:baseParty.map(p=>({...p})),gold:35,items:{herb:4,ether:2,revive:1},inventory:["旅人の剣","木の杖","樹守の弓","黒鉄の剣"],flags:{},choices:[],bond:0,star:0,visited:[],battle:null,tab:"journal",log:["星祭りの鐘が鳴った。"],ending:null,weaponBonus:0,armorBonus:0,storyStep:0};}
 function say(speaker,text){$("speaker").textContent=speaker;$("dialogue").textContent=text}
+function battleMotion(side){const scene=document.querySelector(".scene");if(!scene)return;scene.classList.remove("motion-hero","motion-enemy","motion-hit");void scene.offsetWidth;scene.classList.add(side==="enemy"?"motion-enemy":"motion-hero","motion-hit");setTimeout(()=>scene.classList.remove("motion-hero","motion-enemy","motion-hit"),480)}
 function log(t){G.log.unshift(t);G.log=G.log.slice(0,35);renderLog()}
 function renderLog(){$("log").innerHTML=G.log.slice(0,12).map(x=>"<p>◆ "+esc(x)+"</p>").join("")}
 function pixelArt(scene="village",enemy=null){
@@ -151,7 +157,7 @@ function pixelArt(scene="village",enemy=null){
  boss:["......PP....PP......",".....PPPP..PPPP.....","....PPPPPPPPPPPP....","...PPPPPPPPPPPPPP...","..PPPPPPPPPPPPPPPP..","..PPPPPEPPPPPEPPP...","..PPPPPPPPPPPPPPPP..","...PPPPPRRRPPPPP....","....PPPPPPPPPPPP.....","...pppPPPPPPppp......","..ppppPP..PPpppp.....","..pppPP....PPppp.....","..pppPP....PPppp.....","...ppP......Ppp......"],
  final:[".......YY....YY.......","......YYYY..YYYY......",".....YYYYYYYYYYYY.....","....YYYYYYYYYYYYYY....","...YYYYYYYYYYYYYYYY...","..YYYYYYYYYYYYYYYYYY..","..YYYYYEYYYYYEYYYYYY...","..YYYYYYYYYYYYYYYYYY...","...YYYYYYRRYYYYYYY.....","....YYYYYYYYYYYYY......","...YYYPPYYYYYYPPYYY....","..YYYPPPYYYYYYPPPYYY...","..YYPPPP......PPPPYY...","..YYPPPP......PPPPYY...","...YPP..........PPY...."]
  };
- function drawMonster(type,x,y,scale=3){const real={beast:"bear",spirit:"griffin",boss:"lizard",final:"hydra"}[type]||"bear";const im=spriteImgs[real];if(im&&im.complete&&im.naturalWidth){drawRealSprite(ctx,real,x,y,94,80,false);return;}let map=monsterMaps[type]||monsterMaps.beast;map.forEach((row,yy)=>[...row].forEach((ch,xx)=>{let col=monsterPal[ch];if(col)rect(x+xx*scale,y+yy*scale,scale,scale,col)}));}
+ function drawMonster(type,x,y,scale=3,flipX=true){const real={beast:"bear",spirit:"griffin",boss:"lizard",final:"hydra"}[type]||"bear";const im=spriteImgs[real];if(im&&im.complete&&im.naturalWidth){drawRealSprite(ctx,real,x,y,94,80,flipX);return;}let map=monsterMaps[type]||monsterMaps.beast;map.forEach((row,yy)=>[...row].forEach((ch,xx)=>{let col=monsterPal[ch];if(col){const px=flipX?x+(row.length-1-xx)*scale:x+xx*scale;rect(px,y+yy*scale,scale,scale,col)}}));}
  let sky=scene==="sky"||scene==="final"?"#101936":scene==="forest"?"#152c2a":scene==="castle"?"#1a2038":"#101c37";rect(0,0,w,h,sky);
  for(let i=0;i<82;i++){let x=(i*47+13)%w,y=(i*29+5)%92;rect(x,y,i%9===0?2:1,i%9===0?2:1,i%4===0?"#ffe9a1":"#b8d7ff")}
  if(scene==="village"||scene==="castle"){
@@ -170,11 +176,11 @@ function pixelArt(scene="village",enemy=null){
  const shadow=(x,y,ww)=>{rect(x,y,ww,3,"#0b1422")};
  if(enemy){
   const key=enemy.key||"shade";let type="beast";
-  if(key==="wisp")type="spirit";else if(["memory","clock"].includes(key))type="final";else if(["knight","thorn","golem","kyle"].includes(key))type="boss";else if(key==="void")type="final";
+  if(key==="wisp")type="spirit";else if(["memory","clock","selene","void"].includes(key))type="final";else if(["blackKing","inquisitor","treeMother","knight","thorn","golem","kyle","kyleOld"].includes(key))type="boss";else if(key==="void")type="final";
   // Battle orientation is intentionally fixed by screen position:
   // party is on the left and faces RIGHT; the enemy is on the right and faces LEFT.
-  shadow(207,133,103);drawMonster(type,207,50,3);
-  shadow(7,135,126);drawSprite("yu",5,83,1.55,true);drawSprite("ma",35,91,1.45,true);drawSprite("re",64,91,1.45,true);drawSprite("ka",94,91,1.45,false);
+  shadow(207,133,103);drawMonster(type,207,50,3,true);
+  shadow(7,135,126);drawSprite("yu",5,83,1.55,true);drawSprite("ma",35,91,1.45,true);drawSprite("re",64,91,1.45,true);drawSprite("ka",94,91,1.45,true);
   // Distinct details for a named wolf-like shadow beast: muzzle, fangs, ears and tail.
   if(key==="shade"){
    rect(215,82,15,6,"#617b92");rect(209,80,10,4,"#8fa8bb");rect(231,88,3,4,"#ffe79a");rect(240,89,3,4,"#ffe79a");rect(223,96,9,3,"#25364b");rect(270,88,18,3,"#344d68");rect(282,82,8,4,"#617b92");
@@ -216,55 +222,59 @@ function showChoices(speaker,text,choices){
 }
 function begin(){
  G.stage="intro";G.chapter=0;G.flags={};G.choices=[];G.storyStep=0;G.ending=null;G.battle=null;
- pixelArt("village");
+ pixelArt("castle");
  showChoices("語り部",chapters[0].intro,[
- {title:"星祭りへ向かう",desc:"村人たちと祭りを楽しむ",fn:()=>{G.bond++;G.choices.push("祭り");log("村人たちとの時間を大切にした。");firstScene()}},
- {title:"古老のもとへ向かう",desc:"星の伝承を調べる",fn:()=>{G.star++;G.choices.push("伝承");log("古老から星の伝承を聞いた。");firstScene()}}
+ {title:"王都の裏門から潜入する",desc:"衛兵を避け、城の地下へ向かう",fn:()=>{G.bond++;G.choices.push("裏門");G.flags.stealth=true;log("王都の裏門から城内へ潜入した。");firstScene()}},
+ {title:"衛兵の前で武器を捨てる",desc:"王に会うため、危険を承知で正面へ",fn:()=>{G.star++;G.choices.push("正面");G.flags.bold=true;log("武器を預け、王の謁見を求めた。");firstScene()}}
  ]);
 }
-function firstScene(){G.stage="village";showChoices("幼なじみ・ルナ","ルナ「ねえユウ。今夜の星、いつもと違う。怖いけど……あなたが一緒なら、私は逃げないよ」",[
- {title:"ルナを守ると約束する",desc:"絆が深まる",fn:()=>{G.bond+=2;G.flags.luna=true;log("ルナと約束を交わした。");attackScene()}},
- {title:"村のみんなを守ると誓う",desc:"星の力が少し高まる",fn:()=>{G.star+=1;G.flags.village=true;log("村全体を守ると誓った。");attackScene()}}
+function firstScene(){G.stage="village";showChoices("王女エリス","エリス「父は怪物なんかじゃない。母を失ってから、ずっと国を守ろうとしていたの……でも黒冠を被ってから、父は私の名前さえ思い出せなくなった」",[
+ {title:"王女に、王を救うと約束する",desc:"王の命を奪わずに済む道を探す",fn:()=>{G.bond+=2;G.flags.promised=true;log("王女に王を救うと約束した。");attackScene()}},
+ {title:"黒冠の正体を先に調べる",desc:"地下神殿の記録を手に入れる",fn:()=>{G.star++;G.flags.studiedCrown=true;log("黒冠の記録を読み、弱点の手がかりを得た。");G.party[0].mag+=1;attackScene()}}
 ])}
-function attackScene(){showChoices("村の見張り","「森の方から影が……！」　空が裂け、黒い獣が広場へ飛び込んできた。",[
- {title:"村人を逃がす",desc:"防御の心得を得る",fn:()=>{G.flags.guardLesson=true;G.party[0].def+=1;log("ユウは守りの構えを覚えた。");startBattle("shade","story")}},
- {title:"星片に手を伸ばす",desc:"星の力を得る",fn:()=>{G.star+=1;G.party[0].mag+=2;log("星片がユウの手に反応した。");startBattle("shade","story")}}
+function attackScene(){showChoices("黒冠の王","玉座の間。王は自分の亡き妻の声を聞きながら、黒い冠を押さえつけていた。王「もう少しだ……あと一人分の記憶があれば、あの人を連れ戻せる」エリスが叫ぶ。「父上、私を見て！」王の瞳が黒く燃え、剣が抜かれる。",[
+ {title:"王の剣を受け止め、冠を狙う",desc:"危険だが、王を救う可能性がある",fn:()=>{G.flags.saveKing=true;G.party[0].def+=1;log("王を傷つけず、黒冠を砕く道を選んだ。");startBattle("blackKing","story")}},
+ {title:"王の記憶を呼び戻す言葉を叫ぶ",desc:"王女との約束を力に変える",fn:()=>{G.flags.reachKing=true;G.bond+=2;G.party[0].mag+=2;log("王の心に届く言葉を探した。");startBattle("blackKing","story")}}
 ])}
 function chapterGate(){
  let ch=G.chapter,def=chapters[ch];G.stage="chapter";
  if(ch===1&&!G.flags.maria){G.party[1].friend+=1;G.flags.maria=true}
  if(ch===2&&!G.flags.reina){G.party[2].friend+=1;G.flags.reina=true}
  if(ch===3&&!G.flags.kyle){G.party[3].friend+=1;G.flags.kyle=true}
+ if(ch===1){showChoices("追放司祭セラ",def.intro+"\n\nセラ「王を救ったあなたたちなら、今度は声にすがる人々を救えるかもしれない。私は教会を追われた。死者の声が嘘だと公にしたから」",[
+ {title:"セラを仲間として迎える",desc:"危険を分かち合う",fn:()=>{G.flags.seraTrusted=true;G.bond+=2;G.party[1].friend+=2;log("追放司祭セラと協力することにした。");chapterEncounter()}},
+ {title:"まず消えた巡礼者を追う",desc:"手がかりを優先する",fn:()=>{G.star++;log("巡礼者の足跡を追うことにした。");chapterEncounter()}}
+ ]);return;}
  showChoices("語り部",def.intro,[
- {title:"慎重に手がかりを追う",desc:"道具と守りを重視する",fn:()=>{G.party[0].def+=1;G.choices.push("慎重");log("慎重な判断で守りの知恵を得た。");chapterEncounter()}},
- {title:"星の声を信じて進む",desc:"魔力と星の力を得る",fn:()=>{G.star++;G.party[1].mag+=1;G.choices.push("星の声");log("星の声が仲間の魔力を高めた。");chapterEncounter()}},
- {title:"仲間に本心を打ち明ける",desc:"仲間との絆を深める",fn:()=>{G.bond+=2;G.party[ch%4].friend+=2;G.choices.push("本心");log("互いの本心を話し、絆が深まった。");chapterEncounter()}}
+ {title:"慎重に手がかりを追う",desc:"危険を避け、記録を調べる",fn:()=>{G.party[0].def+=1;G.choices.push("慎重");log("慎重な判断で守りの知恵を得た。");chapterEncounter()}},
+ {title:"星の声を信じて進む",desc:"力を得る代わりに危険を受け入れる",fn:()=>{G.star++;G.party[1].mag+=1;G.choices.push("星の声");log("星の声が仲間の魔力を高めた。");chapterEncounter()}},
+ {title:"仲間に本心を打ち明ける",desc:"絆を深める",fn:()=>{G.bond+=2;G.party[ch%4].friend+=2;G.choices.push("本心");log("互いの本心を話し、絆が深まった。");chapterEncounter()}}
  ]);
 }
 function chapterEncounter(){
  let ch=G.chapter;
- if(ch===1)showChoices("記録官マリア","マリア「記録は嘘をつかない……でも、記録を書いた人間は嘘をつく。私の一族の名が、禁書庫から消されているの」",[
- {title:"一緒に禁書庫へ",desc:"マリアの信頼を得る",fn:()=>{G.bond++;G.party[1].friend+=2;startBattle("wisp","normal")}},
- {title:"まず騎士団に話を聞く",desc:"装備品の手がかりを得る",fn:()=>{G.gold+=15;startBattle("wisp","normal")}}
+ if(ch===1)showChoices("セラ","セラ「人は、戻らない人の声を聞くと、どんな危険でも信じてしまう。だからこそ、あの声を利用する者がいる」巡礼路の奥で、灰の鐘が鳴った。",[
+ {title:"鐘楼へ正面から向かう",desc:"審問官の注意を引きつける",fn:()=>{G.bond++;startBattle("inquisitor","normal")}},
+ {title:"地下の巡礼道を通る",desc:"奇襲の機会を作る",fn:()=>{G.party[0].atk+=1;startBattle("inquisitor","normal")}}
  ]);
- else if(ch===2)showChoices("森の守り手レイナ","レイナ「この森では、未来の自分に会うことがある。私が見た未来では、私はあなたを裏切っていた」",[
- {title:"未来は変えられる",desc:"レイナの絆が深まる",fn:()=>{G.bond+=2;G.party[2].friend+=2;startBattle("thorn","normal")}},
- {title:"裏切りの理由を聞く",desc:"星の秘密を知る",fn:()=>{G.star++;startBattle("thorn","normal")}}
+ else if(ch===2)showChoices("レイナ","レイナ「弟の声が聞こえる。森の向こうにいるって……分かってる、偽物かもしれない。でも、確かめずにはいられない」",[
+ {title:"レイナと一緒に声の主を探す",desc:"彼女の過去に向き合う",fn:()=>{G.bond+=2;G.party[2].friend+=2;startBattle("treeMother","normal")}},
+ {title:"声の発生源を先に断つ",desc:"危険な幻惑を弱める",fn:()=>{G.star++;startBattle("treeMother","normal")}}
  ]);
- else if(ch===3)showChoices("仮面の将軍カイル","カイル「世界は悲しみを繰り返す。私が星を集めれば、誰も失わない歴史に戻せる。お前なら……その意味が分かるはずだ」",[
- {title:"カイルの言葉を否定する",desc:"自由を守る意志",fn:()=>{G.bond++;G.flags.defiedKyle=true;startBattle("golem","normal")}},
- {title:"彼の願いを理解しようとする",desc:"特別な結末への道",fn:()=>{G.flags.understoodKyle=true;G.bond+=2;startBattle("golem","normal")}}
+ else if(ch===3)showChoices("カイル","カイル「黒冠を作った者たちは、最初から世界を支配したかったわけじゃない。愛する者を失った人間が、もう誰も失わない方法を探した。それが、いつからか人を喰う仕組みに変わった」",[
+ {title:"カイルを信じ、真実を聞く",desc:"彼の秘密を知る",fn:()=>{G.flags.understoodKyle=true;G.bond+=2;startBattle("kyle","normal")}},
+ {title:"危険な計画を止めることを優先する",desc:"迷いを振り切って戦う",fn:()=>{G.flags.defiedKyle=true;startBattle("kyle","normal")}}
  ]);
- else showChoices("セレネ","セレネ「悲しみを消せば、喜びも消える。それでも、誰かを失う未来を拒みたい？」",[
- {title:"自由な未来を選ぶ",desc:"可能性を残す",fn:()=>{G.flags.free=true;G.bond+=1;startBattle("void","final")}},
- {title:"悲しみのない世界を望む",desc:"星の力で世界を固定する",fn:()=>{G.flags.order=true;G.star+=2;startBattle("void","final")}},
- {title:"仲間全員に決めてもらう",desc:"絆が強いほど結末が変わる",fn:()=>{G.flags.together=true;G.bond+=3;startBattle("void","final")}}
+ else showChoices("セレネ", "セレネ「王を救ったとき、あなたは一人の願いを救った。今度は世界中の願いが、あなたに助けを求めている。すべてを救うことはできない。それでも、選べる？」",[
+ {title:"黒冠を壊し、失った者を手放す",desc:"誰かの心を犠牲にしない",fn:()=>{G.flags.free=true;G.bond+=1;startBattle("selene","final")}},
+ {title:"自分が核となり、すべての悲しみを引き受ける",desc:"世界を救う代わりに大きな代償を払う",fn:()=>{G.flags.order=true;G.star+=2;startBattle("selene","final")}},
+ {title:"仲間と共に、別の道を探す",desc:"絆が結末を変える",fn:()=>{G.flags.together=true;G.bond+=3;startBattle("selene","final")}}
  ]);
 }
 function startBattle(key,mode="normal"){
  let e=enemyDefs[key];let scale=1+G.chapter*.19;let hp=Math.round(e.hp*scale),atk=Math.round(e.atk*(1+G.chapter*.08)),def=Math.round(e.def*(1+G.chapter*.07));
  if(key==="shade"&&G.chapter===0){hp=e.hp;atk=e.atk;def=e.def}
- G.battle={key,name:e.name,hp,maxHp:hp,atk,def,xp:e.xp,gold:e.gold,kind:e.kind,moves:e.moves,turn:0,rank:key==="void"?"最終":key==="memory"||key==="knight"||key==="clock"||key==="kyle"?"強敵":"通常",mode,guard:[],acted:false};
+ G.battle={key,name:e.name,hp,maxHp:hp,atk,def,xp:e.xp,gold:e.gold,kind:e.kind,moves:e.moves,turn:0,rank:(key==="void"||key==="selene")?"最終":["memory","knight","clock","kyle","blackKing","inquisitor","treeMother"].includes(key)?"強敵":"通常",mode,guard:[],acted:false};
  G.stage="battle";G.party.forEach(p=>p.alive=p.hp>0);
  say("戦闘",""+e.name+"が立ちはだかった！　仲間全員のコマンドを選ぼう。");log("⚔ "+e.name+"が現れた！");
  $("mainTitle").textContent="コマンドバトル";render();
@@ -287,11 +297,11 @@ function renderBattleCommands(){
 function playerAction(type,target){
  let b=G.battle;if(!b||b.acted)return;
  let p=G.party[0],msg="";
- if(type==="attack"){let dmg=Math.max(1,p.atk+G.weaponBonus+ rnd(5)-b.def);b.hp-=dmg;msg=`ユウの攻撃！ ${b.name}に${dmg}のダメージ！`}
- if(type==="star"){if(p.mp<4){say("ユウ","MPが足りない！");return}p.mp-=4;let dmg=Math.max(3,p.atk+p.mag+8+rnd(8)-b.def);b.hp-=dmg;msg=`星火斬り！ 星の刃が走り、${dmg}のダメージ！`}
+ if(type==="attack"){battleMotion("hero");let dmg=Math.max(1,p.atk+G.weaponBonus+ rnd(5)-b.def);b.hp-=dmg;msg=`ユウの攻撃！ ${b.name}に${dmg}のダメージ！`}
+ if(type==="star"){battleMotion("hero");if(p.mp<4){say("ユウ","MPが足りない！");return}p.mp-=4;let dmg=Math.max(3,p.atk+p.mag+8+rnd(8)-b.def);b.hp-=dmg;msg=`星火斬り！ 星の刃が走り、${dmg}のダメージ！`}
  if(type==="heal"){if(p.mp<4){say("ユウ","MPが足りない！");return}p.mp-=4;let who=G.party.filter(x=>x.hp>0).sort((a,b)=>(a.maxHp-a.hp)-(b.maxHp-b.hp)).pop();if(!who)who=p;let amount=22+G.party[1].mag;who.hp=Math.min(who.maxHp,who.hp+amount);msg=`癒しの光！ ${who.name}のHPが${amount}回復！`}
  if(type==="guard"){b.guard=G.party.map(()=>true);msg="全員が守りの構えをとった！"}
- if(type==="bond"){let bond=G.bond+G.party.reduce((s,p)=>s+p.friend,0);if(bond<2){say("ユウ","まだ仲間との絆が足りない……。");return}let dmg=12+bond*3+rnd(10);b.hp-=dmg;G.party.forEach(p=>p.mp=Math.max(0,p.mp-1));msg=`絆の連携！ 四人の力が重なり${dmg}のダメージ！`}
+ if(type==="bond"){battleMotion("hero");let bond=G.bond+G.party.reduce((s,p)=>s+p.friend,0);if(bond<2){say("ユウ","まだ仲間との絆が足りない……。");return}let dmg=12+bond*3+rnd(10);b.hp-=dmg;G.party.forEach(p=>p.mp=Math.max(0,p.mp-1));msg=`絆の連携！ 四人の力が重なり${dmg}のダメージ！`}
  log(msg);say("戦闘ログ",msg);b.acted=true;
  if(b.hp<=0){winBattle();return}
  render();renderBattleCommands();
@@ -317,11 +327,11 @@ function useItem(key,inBattle){
 function enemyTurn(){
  let b=G.battle;if(!b)return;
  let alive=G.party.filter(p=>p.hp>0);if(!alive.length){G.party.forEach(p=>{p.hp=Math.max(1,Math.floor(p.maxHp*.35));p.mp=Math.max(1,Math.floor(p.maxMp*.3))});G.gold=Math.max(0,G.gold-10);G.battle=null;log("仲間たちは村の宿で目を覚ました。所持金を少し失った。");say("敗北","倒れてしまった……けれど、旅はまだ終わらない。");continueAfterBattle(false);return}
- let target=alive[rnd(alive.length)],move=b.moves[rnd(b.moves.length)],dmg=Math.max(1,b.atk+rnd(6)-target.def-G.armorBonus);
+ battleMotion("enemy");let target=alive[rnd(alive.length)],move=b.moves[rnd(b.moves.length)],dmg=Math.max(1,b.atk+rnd(6)-target.def-G.armorBonus);
  if(b.guard&&b.guard[G.party.indexOf(target)])dmg=Math.max(1,Math.floor(dmg*.35));
  target.hp=Math.max(0,target.hp-dmg);log(`${b.name}の${move}！ ${target.name}は${dmg}のダメージ！`);
  b.turn++;b.acted=false;b.guard=[];
- if(b.key==="void"&&b.hp<b.maxHp*.5&&!b.phase2){b.phase2=true;b.atk+=5;log("虚無の王が第二形態へ！攻撃が激しくなった！")}
+ if((b.key==="void"||b.key==="selene")&&b.hp<b.maxHp*.5&&!b.phase2){b.phase2=true;b.atk+=5;log("虚無の王が第二形態へ！攻撃が激しくなった！")}
  say("敵のターン",`${b.name}の${move}！ ${target.name}は${dmg}のダメージを受けた。`);
  if(!G.party.some(p=>p.hp>0)){render();renderBattleCommands();setTimeout(()=>enemyTurn(),200);return}
  render();renderBattleCommands();
@@ -341,9 +351,15 @@ function continueAfterBattle(won){
  ])}else finishEnding();
 }
 function chapterOneAfter(){
- showChoices("古老","古老「星片は七つ。だが、それを集めれば願いが叶うという話は半分だけ正しい。星は願いを叶えるのではない。願った者が何を捨てるかを映すのだ」",[
- {title:"星片を村に預ける",desc:"人々の信頼を得る",fn:()=>{G.bond++;G.flags.trustedVillage=true;G.star++;G.chapter=1;chapterGate()}},
- {title:"星片を自分で守る",desc:"星の力を少し得る",fn:()=>{G.star+=2;G.flags.keptShard=true;G.party[0].atk+=1;G.chapter=1;chapterGate()}}
+ showChoices("正気を取り戻した王", "王「私は国を救うつもりだった。だが、冠は妻の声を聞かせるたびに、誰かの記憶を奪っていた……」王は自ら王冠を床に置き、兵に剣を差し出した。王女エリスは泣きながら父を抱きしめる。王都は救われた。民は鐘を止め、長い夜が明けたと思った。",[
+ {title:"王を裁きの場へ立たせる",desc:"罪を隠さず、王国の再建を始める",fn:()=>{G.flags.kingJudged=true;G.bond+=1;G.star++;log("王は自ら裁きを受けると誓った。");chapterTwoReveal()}},
+ {title:"王に真実を語らせる",desc:"黒冠の出所を追う",fn:()=>{G.flags.kingConfessed=true;G.star+=2;log("王は黒冠が古い星砦から運ばれたと明かした。");chapterTwoReveal()}}
+ ]);
+}
+function chapterTwoReveal(){
+ showChoices("三日後・王城の地下記録庫", "祝賀の鐘が鳴り終わった夜、地下記録庫で封印が解けた。王の黒冠と同じ紋章が、何百もの記録に刻まれている。記録官マリアが駆け込んでくる。マリア「王の事件は始まりじゃない。各地で同じ冠が使われている。しかも、次の冠はもう誰かの手に渡っている！」壁の向こうから、死んだはずの者たちの声が響く。王国を救った旅は、世界を喰らう仕組みを止める旅へ変わった。",[
+ {title:"マリアと共に記録を解読する",desc:"彼女が仲間に加わる",fn:()=>{G.bond+=2;G.party[1].friend+=2;G.flags.maria=true;G.chapter=1;log("記録官マリアが正式に旅へ加わった。");chapterGate()}},
+ {title:"王の秘密の通路から出発する",desc:"先回りして次の冠を追う",fn:()=>{G.star++;G.party[0].atk+=1;G.chapter=1;log("王から託された通行証を手に入れた。");chapterGate()}}
  ]);
 }
 function finishEnding(){
